@@ -32,4 +32,9 @@ public class TowerManager {
 		
 	}
 	
+	public LinkedList<Tower> getTowersList(){
+		
+		return towers;
+	}
+	
 }

@@ -20,7 +20,7 @@ public abstract class Tower extends Observable {
     private int rateOfFire;
     private int buyingCost;
     private int level; 
-    private int UpgradeCost;
+    private int upgradeCost;
 
     
     protected boolean attacked = false;
@@ -56,12 +56,12 @@ public abstract class Tower extends Observable {
      * The coins and most of the upgrades are a function of the present tower level, 
      * which starts at 1 by default and increases by one with each call to the method.
     */
-    public boolean upgrade(int level, int cost)
+    public void upgrade()
     {
        
-            if(level < 5){
+            
                 setRange(getRange()+50);
-                setRefundValue((cost*level)/3);
+                setRefundValue((upgradeCost*level)/3);
                 setPower(getPower()*(2*level));
                 setRateOfFire(getRateOfFire()*(level));
                 setLevel(level + 1);
@@ -72,11 +72,9 @@ public abstract class Tower extends Observable {
                 upgraded =true;
                 notifyObservers("u");
           
-                return true;
-            }
- 
+            
     
-        return false;
+        
     }
     
     
@@ -176,11 +174,11 @@ public abstract class Tower extends Observable {
 	}
 
 	public int getUpgradeCost() {
-		return UpgradeCost;
+		return upgradeCost;
 	}
 
 	public void setUpgradeCost(int upgradeCost) {
-		UpgradeCost = upgradeCost;
+		this.upgradeCost = upgradeCost;
 	}
 	
 

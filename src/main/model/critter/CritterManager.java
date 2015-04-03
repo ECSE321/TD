@@ -1,11 +1,11 @@
 package main.model.critter;
 import java.util.LinkedList;
 
-public class critterManager {
+public class CritterManager {
 
 	private LinkedList<Critter> critters;
 	
-	public critterManager() {
+	public CritterManager() {
 		critters = new LinkedList<Critter>();
 	}
 	

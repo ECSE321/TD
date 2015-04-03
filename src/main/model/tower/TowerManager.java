@@ -1,15 +1,13 @@
 package main.model.tower;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 
 
 
 public class TowerManager {
 
-	private List<Tower> towers = new ArrayList<Tower>();
+	private LinkedList<Tower> towers;
 	
 
    public TowerManager() {

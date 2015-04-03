@@ -3,7 +3,7 @@ package main.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Observerable {
+public abstract class Observable {
 	List<IObserver> observers = new ArrayList<IObserver>();
 	
 	public void addObserver(IObserver o) {

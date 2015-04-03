@@ -1,5 +1,5 @@
 package main.model;
 
 public interface IObserver {
-	public void update(Observerable o, String arg);
+	public void update(Observable o, String arg);
 }

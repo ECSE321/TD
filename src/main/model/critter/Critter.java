@@ -1,8 +1,9 @@
 package main.model.critter;
 import main.model.Vector2D;
+import main.model.Observable;
 
 
-public abstract class Critter {
+public abstract class Critter extends Observable {
 
 	private Vector2D position;
 	

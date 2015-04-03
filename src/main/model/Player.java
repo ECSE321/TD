@@ -34,4 +34,17 @@ public class Player {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	
+	public boolean makePurchase(int gold) {
+		if(this.gold < gold) {
+			return false;
+		} else {
+			this.gold -= gold;
+			return true;
+		}
+	}
+	
+	public void addGold(int gold) {
+		this.gold += gold;
+	}
 }

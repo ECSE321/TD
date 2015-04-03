@@ -1,5 +1,6 @@
 package main.model;
 
+import main.model.map.*;
 import main.model.tower.*;
 import main.model.critter.*;
 
@@ -7,11 +8,17 @@ public class GameLogic {
 	private CritterManager critterManager;
 	private TowerManager towerManager;
 	private Player player;
+	private Map map;
 	private Tile selectedTile;
 	
-	public void purchaseTower(int towerType) {
-		//TODO: update tower types when they get created
+	public GameLogic(CritterManager cm, TowerManager tm, Player p, Map m) {
+		
+	}
+	
+	public boolean purchaseTower(int towerType) {
 		Tower tower;
+		if(selectedTile == null) return false;
+		
 		Vector2D position = selectedTile.getPosition();
 		
 		switch(towerType) {
@@ -23,9 +30,14 @@ public class GameLogic {
 					break;
 			case 4: tower = new SpellTower(position);
 					break;
+			default: return false;
 		}
+		int cost = tower.getBuyingCost();
+		if(!player.makePurchase(cost)) return false;
+		
 		towerManager.addTower(tower);
 		selectedTile.addTower(tower);
+		return true;
 	}
 	
 	public boolean sellTower() {
@@ -34,7 +46,7 @@ public class GameLogic {
 			return false;
 		} else {
 			int refund = tower.getRefundValue();
-			player.setGold(player.getGold() + refund);
+			player.addGold(refund);
 			towerManager.removeTower(tower);
 			return true;
 		}
@@ -56,6 +68,15 @@ public class GameLogic {
 	}
 	
 	public void selectTile(Vector2D v) {
-		selectedTile.setTile(map.getTileAt(v));
+		selectedTile = map.getTileAt(v);
+	}
+	
+	public boolean purchaseHealth() {
+		if(player.getGold() < 100) {
+			return false;
+		} else {
+			player.setHealth(player.getHealth() + 10);
+			return true;
+		}
 	}
 }

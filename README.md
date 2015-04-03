@@ -5,4 +5,4 @@ A tower defense game written as a project for ECSE 321, Winter 2015
 * Andoni, R.
 * Bell, J.
 * Kuhn, A.
-* Enrique Gallet Zambrano, L.
+* Gallet Zambrano, L.

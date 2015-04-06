@@ -40,7 +40,7 @@ public class GameLogic {
 		for (Critter c : critters) {
 				Tile tile = map.getTileAt(c.getPosition());
 				Tile nextTile = ((Path)tile).getNext();
-				Vector2D nextTileVector = new Vector2D (nextTile.getCenterDrawPosition().getX(), nextTile.getCenterDrawPosition().getY());
+				Vector2D nextTileVector = new Vector2D (nextTile.getCenterDrawPosition().getX()+13, nextTile.getCenterDrawPosition().getY()+13);
 				Vector2D directionVector = nextTileVector.getDisplacementVector(c.getPosition());
 				Vector2D velocityVector = directionVector.getNormalizedVector().getScalarMultipleVector(c.getSpeed()/6);
 				Vector2D newPosition = c.getPosition().getVectorAddition(velocityVector); 

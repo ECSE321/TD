@@ -46,7 +46,7 @@ public class Map {
 	}
 	
 	/*
-	 * FOR TESTING
+	 * FOR BUILDING MAP
 	 */
 	public void addTile(Tile t) {
 		tiles.add(t);

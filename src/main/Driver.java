@@ -32,6 +32,7 @@ public class Driver {
 				path.add(new Vector2D(100,0));
 				path.add(new Vector2D(100,50));
 				path.add(new Vector2D(100,100));
+				path.add(new Vector2D(50, 100));
 				map.tracePath(path);
 				
 				map.addTile(new Tile(new Vector2D(0,50)));

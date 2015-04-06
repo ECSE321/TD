@@ -32,6 +32,7 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame(GameLogic model) {
         initComponents();
         this.model = model;
+        
     }
 
     /**
@@ -67,7 +68,7 @@ public class NewJFrame extends javax.swing.JFrame {
 		        
 		        List<Critter> critters = model.getCrittersList();
 		        for(Critter c : critters) {
-		        	g.setColor(Color.black);
+		        	g.setColor(Color.blue);
 		        	g.fillOval(c.getPosition().getX(), c.getPosition().getY(), 25, 25);
 		        }
 		        
@@ -179,11 +180,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         upgradeCost.setText("Cost");
 
-        StrengthA.setText("Strength");
+        StrengthA.setText("Strength: 50");
 
-        RoFA.setText("RoF");
+        RoFA.setText("RoF: 3");
 
-        RangeA.setText("Range");
+        RangeA.setText("Range: ");
 
         CostA.setText("Cost");
 
@@ -408,6 +409,7 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         Point point = evt.getPoint();
         model.selectTile(point);
+        
     }//GEN-LAST:event_mapPanelMouseClicked
 
     private void SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SellActionPerformed
@@ -475,5 +477,4 @@ public class NewJFrame extends javax.swing.JFrame {
     public javax.swing.JPanel mapPanel;
     private javax.swing.JPanel playerPanel;
     // End of variables declaration//GEN-END:variables
-
 }

@@ -5,15 +5,18 @@
  */
 package main.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.util.List;
+import java.awt.Graphics2D;
 
 import javax.swing.ImageIcon;
 
 import main.model.GameLogic;
+import main.model.View;
 import main.model.critter.*;
 import main.model.map.Tile;
 import main.model.tower.Tower;
@@ -23,7 +26,7 @@ import main.model.tower.Tower;
  * @author justin
  */
 @SuppressWarnings("serial")
-public class NewJFrame extends javax.swing.JFrame {
+public class NewJFrame extends javax.swing.JFrame implements View {
 	GameLogic model;
 	
     /**
@@ -33,6 +36,7 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         this.model = model;
         
+        update();
     }
 
     /**
@@ -63,6 +67,11 @@ public class NewJFrame extends javax.swing.JFrame {
 		        	} else {
 		        		g.drawImage(landscapeImage, t.getPosition().getX(), t.getPosition().getY(),
 		        				50, 50, null);
+		        		if(t.equals(model.getSelectedTile())) {
+		        			g.setColor(Color.yellow);
+		        			((Graphics2D)g).setStroke(new BasicStroke(5));
+		        			g.drawRect(t.getPosition().getX(), t.getPosition().getY(), 50, 50);
+		        		}
 		        	}
 		        }
 		        
@@ -110,6 +119,17 @@ public class NewJFrame extends javax.swing.JFrame {
         Health = new javax.swing.JLabel();
         Level = new javax.swing.JLabel();
         NextWave = new javax.swing.JButton();
+        
+        /*
+         * Disable Buttons on start
+         */
+        PurchaseA.setEnabled(false);
+        PurchaseB.setEnabled(false);
+        PurchaseC.setEnabled(false);
+        PurchaseD.setEnabled(false);
+        
+        Upgrade.setEnabled(false);
+        Sell.setEnabled(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -409,12 +429,22 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         Point point = evt.getPoint();
         model.selectTile(point);
+        if(model.getSelectedTile() != null) {
+        	if(model.getSelectedTile().getTower() == null) {
+        		purchaseMode();
+        	} else {
+        		upgradeMode();
+        	}
+        	
+        }
         
     }//GEN-LAST:event_mapPanelMouseClicked
 
     private void SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SellActionPerformed
         // TODO add your handling code here:
         model.sellTower();
+        
+        purchaseMode();
     }//GEN-LAST:event_SellActionPerformed
 
     private void UpgradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpgradeActionPerformed
@@ -425,23 +455,74 @@ public class NewJFrame extends javax.swing.JFrame {
     private void PurchaseDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseDActionPerformed
         // TODO add your handling code here:
         model.purchaseTower(3);
+        
+        upgradeMode();
     }//GEN-LAST:event_PurchaseDActionPerformed
 
     private void PurchaseCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseCActionPerformed
         // TODO add your handling code here:
         model.purchaseTower(2);
+        
+        upgradeMode();
     }//GEN-LAST:event_PurchaseCActionPerformed
     
     private void PurchaseBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseBActionPerformed
         // TODO add your handling code here:
         model.purchaseTower(1);
+        
+        upgradeMode();
     }//GEN-LAST:event_PurchaseBActionPerformed
 
     private void PurchaseAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseAActionPerformed
         // TODO add your handling code here:
         model.purchaseTower(0);
+        upgradeMode();
+        
     }//GEN-LAST:event_PurchaseAActionPerformed
-
+    
+    public void purchaseMode() {
+    	
+    	PurchaseA.setEnabled(true);
+    	PurchaseB.setEnabled(true);
+    	PurchaseC.setEnabled(true);
+    	PurchaseD.setEnabled(true);
+        
+        Upgrade.setEnabled(false);
+        Sell.setEnabled(false);
+        
+        update();
+    }
+    
+    public void upgradeMode() {
+    	 PurchaseA.setEnabled(false);
+         PurchaseB.setEnabled(false);
+         PurchaseC.setEnabled(false);
+         PurchaseD.setEnabled(false);
+         
+         Upgrade.setEnabled(true); 
+         Sell.setEnabled(true);
+         
+         updateUpgrade();
+         update();
+    }
+    
+    public void updateUpgrade() {
+    	int cost;
+    	int refund;
+    	
+    	if(model.getSelectedTile().getTower() != null) {
+    		cost = model.getSelectedTile().getTower().getUpgradeCost();
+    		refund = model.getSelectedTile().getTower().getRefundValue();
+    	} else {
+    		cost = 0;
+    		refund = 0;
+    	}
+    	
+    	upgradeCost.setText("Cost: " + cost);
+    	sellValue.setText("Refund: " + refund);
+    	update();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CostA;
     private javax.swing.JLabel CostB;
@@ -477,4 +558,30 @@ public class NewJFrame extends javax.swing.JFrame {
     public javax.swing.JPanel mapPanel;
     private javax.swing.JPanel playerPanel;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		int playerGold = model.getPlayer().getGold();
+		if(playerGold < 1200) {
+			PurchaseA.setEnabled(false);
+		}
+		if(playerGold < 1200) {
+			PurchaseB.setEnabled(false);
+		}
+		if(playerGold < 1200) {
+			PurchaseC.setEnabled(false);
+		}
+		if(playerGold < 1200) {
+			PurchaseD.setEnabled(false);
+		}
+		
+		if(playerGold < 1200) {
+			Upgrade.setEnabled(false);
+		}
+		
+		Gold.setText("Gold: " + playerGold);
+		Health.setText("Health: " + model.getPlayer().getHealth());
+		Level.setText("Level: " + model.getPlayer().getLevel());
+	}
 }

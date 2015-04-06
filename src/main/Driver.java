@@ -36,6 +36,7 @@ public class Driver {
 				map.tracePath(path);
 				
 				map.addTile(new Tile(new Vector2D(0,50)));
+				map.addTile(new Tile(new Vector2D(50,50)));
 				/*
 				 * END TESTING
 				 */
@@ -47,6 +48,8 @@ public class Driver {
 				frame.setVisible(true);
 				frame.setResizable(false);
 				frame.validate();
+				
+				model.addView(frame);
 				
 				Timer timer = new Timer();
 

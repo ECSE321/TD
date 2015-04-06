@@ -7,7 +7,7 @@ public class Player {
 	
 	public Player() {
 		this.health = 100;
-		this.gold = 1000;
+		this.gold = 2000;
 		this.level = 1;
 	}
 	

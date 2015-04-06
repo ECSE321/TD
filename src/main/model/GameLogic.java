@@ -1,6 +1,7 @@
 package main.model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import main.model.map.*;
@@ -13,6 +14,7 @@ public class GameLogic {
 	private Player player;
 	private Map map;
 	private Vector2D spawnPoint;
+	private List<View> views;
 	
 	
 	public GameLogic(Map m) {
@@ -21,6 +23,7 @@ public class GameLogic {
 		player = new Player();
 		map = m;
 		spawnPoint = map.getFirstTile().getCenterDrawPosition();
+		views = new ArrayList<View>();
 	}
 	
 	public List<Critter> getCrittersList() {
@@ -50,13 +53,13 @@ public class GameLogic {
 	}
 	
 	private int crittersToSpawn;
-	private int spawnCounter = 3;
+	private int spawnCounter = 50;
 	private void spawnCritters() {
 		if(crittersToSpawn > 0) {
 			if(spawnCounter == 0) {
 				addRandomCritter(spawnPoint, player.getLevel());
 				crittersToSpawn--;
-				spawnCounter = 3;
+				spawnCounter = 50;
 			} else {
 				spawnCounter--;
 			}
@@ -107,6 +110,7 @@ public class GameLogic {
 		map.getSelectedTile().addTower(t);
 		int cost = t.getBuyingCost();
 		player.makePurchase(cost);
+		updateViews();
 	}
 	
 	public void sellTower() {
@@ -114,17 +118,35 @@ public class GameLogic {
 		player.addGold(t.getRefundValue());
 		towerManager.removeTower(t);
 		map.getSelectedTile().removeTower(t);
+		updateViews();
 	}
 	
 	public void upgradeTower() {
 		Tower t = map.getSelectedTile().getTower();
 		player.makePurchase(t.getUpgradeCost());
 		t.upgrade();
+		updateViews();
 	}
 	
 	public void startWave() {
-		crittersToSpawn = player.getLevel() * 1;
+		crittersToSpawn = player.getLevel() * 2;
 	}
 	
+	public Tile getSelectedTile() {
+		return map.getSelectedTile();
+	}
 	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public void addView(View view) {
+		views.add(view);
+	}
+	
+	public void updateViews() {
+		for (View v: views) {
+			v.update();
+		}
+	}
 }

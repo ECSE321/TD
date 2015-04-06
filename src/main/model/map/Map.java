@@ -9,9 +9,12 @@ public class Map {
 	private List<Tile> tiles;
 	private int id;
 	
-	public Map(int id) {
+	public void addTile(Tile t) {
+		tiles.add(t);
+	}
+	
+	public Map() {
 		this.tiles = new ArrayList<Tile>();
-		this.id = id;
 	}
 	
 	public int getId() {
@@ -23,5 +26,9 @@ public class Map {
 			if(t.isHere(v)) return t;
 		}
 		return null;
+	}
+	
+	public List<Tile> getTilesList() {
+		return tiles;
 	}
 }

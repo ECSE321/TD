@@ -11,7 +11,7 @@ import main.model.Observable;
 
 public abstract class Tower extends Observable {
     
-    protected Vector2D v;
+    protected Vector2D position;
 
     //Attributes shared by the subclasses
     private int range;
@@ -38,7 +38,7 @@ public abstract class Tower extends Observable {
         this.setBuyingCost(buyingCost);
         this.setLevel(level); 
         this.setUpgradeCost(upgradeCost);
-        this.v = position; 
+        this.position = position; 
        
          
              
@@ -181,6 +181,8 @@ public abstract class Tower extends Observable {
 		this.upgradeCost = upgradeCost;
 	}
 	
-
+	public Vector2D getPosition() {
+		return position;
+	}
  
 }

@@ -1,5 +1,7 @@
 package main.model;
 
+import java.util.List;
+
 import main.model.map.*;
 import main.model.tower.*;
 import main.model.critter.*;
@@ -9,83 +11,33 @@ public class GameLogic {
 	private TowerManager towerManager;
 	private Player player;
 	private Map map;
-	private Tile selectedTile;
 	
-	public GameLogic(CritterManager cm, TowerManager tm, Player p, Map m) {
-		
+	public GameLogic(Map m) {
+		critterManager = new CritterManager();
+		towerManager = new TowerManager();
+		player = new Player();
+		map = m;
 	}
 	
-	public boolean purchaseTower(int towerType) {
-		Tower tower;
-		if(selectedTile == null) return false;
-		
-		Vector2D position = selectedTile.getPosition();
-		
-		switch(towerType) {
-			case 1:	tower = new CanonTower(position);
-					break;
-			case 2: tower = new MachineGunTower(position);
-					break;
-			case 3: tower = new MortarTower(position);
-					break;
-			case 4: tower = new SpellTower(position);
-					break;
-			default: return false;
-		}
-		int cost = tower.getBuyingCost();
-		if(!player.makePurchase(cost)) 
-			return false;
-		
-		towerManager.addTower(tower);
-		selectedTile.addTower(tower);
-		return true;
+	public List<Critter> getCrittersList() {
+		return critterManager.getCrittersList();
 	}
 	
-	public boolean sellTower() {
-		Tower tower = selectedTile.getTower();
-		if(tower == null) {
-			return false;
-		} else {
-			int refund = tower.getRefundValue();
-			player.addGold(refund);
-			towerManager.removeTower(tower);
-			return true;
-		}
+	public List<Tower> getTowersList() {
+		return towerManager.getTowersList();
 	}
 	
-	public boolean upgrade() {
-		Tower tower = selectedTile.getTower();
-		if(tower == null) {
-			return false;
-		} else {
-			int upgradeCost = tower.getUpgradeCost();
-			if(upgradeCost > player.getGold() && tower.getLevel() < 5) {
-				return false;
-			} else {
-				tower.upgrade();
-				return true;
-			}
-		}
+	public List<Tile> getTilesList() {
+		return map.getTilesList();
 	}
 	
-	public void selectTile(Vector2D v) {
-		selectedTile = map.getTileAt(v);
+	public void addCritter() {
+		critterManager.addCritter(new NormalCritter(1));
+		critterManager.getCrittersList().get(0).setPosition(new Vector2D(10,10));
 	}
 	
-	public boolean purchaseHealth() {
-		if(player.getGold() < 100) {
-			return false;
-		} else {
-			player.setHealth(player.getHealth() + 10);
-			return true;
-		}
-	}
-	
-	public void attackCritter(){
-		Critter critter;
-		Map m;
-		
-	
-		while(critter.getPosition() ){}
+	public void updateFrame() {
+		Vector2D newPosition = new Vector2D(critterManager.getCrittersList().get(0).getPosition().getX() + 2, critterManager.getCrittersList().get(0).getPosition().getY());
+		critterManager.getCrittersList().get(0).setPosition(newPosition);
 	}
 }

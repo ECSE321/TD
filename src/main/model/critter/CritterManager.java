@@ -32,7 +32,9 @@ public class CritterManager {
 		}
 		
 		public LinkedList<Critter> getCrittersList(){
-			
+			if(critters.isEmpty()) {
+				return new LinkedList<Critter>();
+			}
 			return critters;
 		}
 		

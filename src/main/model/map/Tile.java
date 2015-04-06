@@ -8,6 +8,18 @@ public abstract class Tile {
 	Tower tower;
 	int size = 10;
 	
+	public Tile(int x, int y) {
+		position = new Vector2D(x,y);
+	}
+	
+	public boolean isPath() {
+		if (this instanceof Path) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public Vector2D getPosition() {
 		return position;
 	}

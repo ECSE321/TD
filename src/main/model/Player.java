@@ -5,10 +5,10 @@ public class Player extends Observable{
 	private int gold;
 	private int level;
 	
-	public Player(int health, int gold, int level) {
-		this.health = health;
-		this.gold = gold;
-		this.level = level;
+	public Player() {
+		this.health = 100;
+		this.gold = 1000;
+		this.level = 1;
 	}
 	
 	public int getHealth() {

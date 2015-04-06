@@ -3,6 +3,7 @@ package main;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import main.controller.PurchaseController;
 import main.model.Player;
 import main.view.PurchaseView;
 import main.view.TDPanel;
@@ -17,13 +18,14 @@ public class Driver {
 				frame.setSize(200,200);        
 				frame.setVisible(true);
 				
-				TDPanel PV = new PurchaseView();
-				frame.add(PV);
+				PurchaseView PV = new PurchaseView();
 				
 				Player p = new Player(100, 1000, 1);
 				p.addObserver(PV);
 				
-				p.makePurchase(10);
+				PurchaseController PC = new PurchaseController(PV, p);
+				
+				frame.add(PV);
 			}
 	});
 	}

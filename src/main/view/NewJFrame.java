@@ -55,7 +55,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 		
 			@Override
 			 public void paintComponent(Graphics g) {
-		        super.paintComponents(g);
+		        super.paintComponent(g);
 		        
 		        g.setColor(Color.black);
 		        List<Tile> tiles = model.getTilesList();

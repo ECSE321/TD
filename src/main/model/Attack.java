@@ -20,6 +20,9 @@ public class Attack extends Thread {
 	private TowerManager towerManager;
 	private Player player;
 	
+	//This will tick every time the towers are checked
+	int tick =0;
+	
 	public Attack(CritterManager cm, TowerManager tm, Player p){	
 		this.critterManager = cm;
 		this.towerManager = tm;
@@ -28,9 +31,6 @@ public class Attack extends Thread {
 
 
 	public void run() {
-		
-		//This will tick every time the towers are checked
-		int tick =0;
 
 		//Keep track of the towers
 		LinkedList<Tower> towerList = new LinkedList<Tower>();

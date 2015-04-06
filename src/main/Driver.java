@@ -24,9 +24,9 @@ public class Driver {
 		tm.addTower(machineGunTower);
 		tm.addTower(spellTower);
 		
-		Critter fastCritter = new FastCritter(10);
-		Critter normalCritter = new NormalCritter(10);
-		Critter tankCritter = new TankCritter(10);
+		Critter fastCritter = new FastCritter(10,origin);
+		Critter normalCritter = new NormalCritter(10,origin);
+		Critter tankCritter = new TankCritter(10,origin);
 		CritterManager cm = new CritterManager();
 		cm.addCritter(fastCritter);
 		cm.addCritter(normalCritter);

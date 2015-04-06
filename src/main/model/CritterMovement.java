@@ -11,7 +11,6 @@ public class CritterMovement extends Thread{
 	private Player player;
 	private Map map;
 	int endX;
-	boolean waveStart;
 	
 	int REFRESH_RATE = 1000; //Refresh every second
 	
@@ -20,14 +19,11 @@ public class CritterMovement extends Thread{
 		this.player = p;
 		this.map = m;
 		endX = map.mapWidth;
-		waveStart = true;
 	}
 	
 	public void run(){
 		
-		if(waveStart){
-			
-		}
+	
 		
 		if(player.getHealth()<0){
 			//TODO: deal with game over

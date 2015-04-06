@@ -51,10 +51,6 @@ public class Attack extends Thread {
 					player.addGold(currentCritter.getReward());
 					critterManager.removeCritter(currentCritter);
 				}
-			    else if(false){
-			    	//TODO: check if critter has reached the end
-			    	
-			    }
 			}
 			
 			//If no towers are set, no need to attack, so wait for the user to place any towers

@@ -20,6 +20,8 @@ public abstract class Critter extends Observable {
 		this.setHitPoints(hitPoints);
 		this.setStrength(strength);
 		this.setSpeed(speed);
+		//TODO: change initialization of this:
+		this.position = new Vector2D(0,0);
 		
 	}
 	

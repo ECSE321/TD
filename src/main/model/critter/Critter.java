@@ -12,21 +12,15 @@ public abstract class Critter extends Observable {
 	private int hitPoints;
 	private int strength;
 	private int speed;
-	private boolean armoured;
 
-	public Critter(int level,int reward, int hitPoints, int strength, int speed){
+	public Critter(int level,int reward, int hitPoints, int strength, int speed, Vector2D startPosition){
 		this.setLevel(level);
 		this.setReward(reward);
 		this.setHitPoints(hitPoints);
 		this.setStrength(strength);
 		this.setSpeed(speed);
-		//TODO: change initialization of this:
-		this.position = new Vector2D(0,0);
+		this.position = startPosition;
 		
-	}
-	
-	void move(){
-		//TODO: implement move
 	}
 	
 	public int takeDamage() {

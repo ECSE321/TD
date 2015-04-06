@@ -5,23 +5,29 @@ import java.util.LinkedList;
 import main.model.critter.*;
 import main.model.map_2.*;
 
-public class PlayerMonitor extends Thread{
+public class CritterMovement extends Thread{
 
 	private CritterManager critterManager;
 	private Player player;
 	private Map map;
 	int endX;
+	boolean waveStart;
 	
 	int REFRESH_RATE = 1000; //Refresh every second
 	
-	public PlayerMonitor(CritterManager cm, Player p, Map m){	
+	public CritterMovement(CritterManager cm, Player p, Map m){	
 		this.critterManager = cm;
 		this.player = p;
 		this.map = m;
 		endX = map.mapWidth;
+		waveStart = true;
 	}
 	
 	public void run(){
+		
+		if(waveStart){
+			
+		}
 		
 		if(player.getHealth()<0){
 			//TODO: deal with game over

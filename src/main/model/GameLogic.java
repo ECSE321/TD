@@ -1,5 +1,8 @@
 package main.model;
 
+import java.util.Iterator;
+import java.util.List;
+
 import main.model.map.*;
 import main.model.tower.*;
 import main.model.critter.*;
@@ -80,6 +83,7 @@ public class GameLogic {
 			return true;
 		}
 	}
+	
 	
 	public void attackCritter(){
 		Critter critter;

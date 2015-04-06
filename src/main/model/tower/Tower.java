@@ -181,6 +181,10 @@ public abstract class Tower extends Observable {
 		this.upgradeCost = upgradeCost;
 	}
 	
+	public Vector2D getPosition(){
+		return this.v;
+	}
+	
 
  
 }

@@ -25,6 +25,10 @@ public class Vector2D {
 		this.y = y;
 	}
 	
+	public double getMagnitude(){
+		return Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) );
+	}
+	
 	public Vector2D getDisplacementVector(Vector2D v) {
 		int x = this.x - v.getX();
 		int y = this.y - v.getY();
@@ -42,5 +46,13 @@ public class Vector2D {
 		int x = (int)Math.round(this.x / magnitudeV);
 		int y = (int)Math.round(this.y / magnitudeV);
 		return new Vector2D(x, y);
+	}
+	
+	//To compare two vector objects
+	public boolean equals(Vector2D v){
+		if((v.getX()==this.getX()) && (v.getY() == this.getY())){
+			return true;
+		}
+		return false;
 	}
 }

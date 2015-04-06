@@ -1,49 +1,96 @@
 package main.model;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedList;
 
 import main.model.critter.Critter;
 import main.model.critter.CritterManager;
+import main.model.tower.SpellTower;
 import main.model.tower.Tower;
 import main.model.tower.TowerManager;
 
 public class Attack extends Thread {
+	//Constants:
+	int MIN_SPEED = 5;
+	int REFRESH_RATE = 200;
+	
 	private CritterManager critterManager;
 	private TowerManager towerManager;
 	private Player player;
-
-
-
-	public void run(CritterManager cm, TowerManager tm, Player p) {
-		//Keep track of managers
+	
+	public Attack(CritterManager cm, TowerManager tm, Player p){	
 		this.critterManager = cm;
 		this.towerManager = tm;
 		this.player = p;
+	}
+
+
+	public void run() {
+		
 		//This will tick every time the towers are checked
 		int tick =0;
 
 		//Keep track of the towers
-		List<Tower> towerList = null;
-		List<Critter> critterList = null;
-		Hashtable<Tower,List<Critter>> aimed = new Hashtable<Tower,List<Critter>>();
+		LinkedList<Tower> towerList = new LinkedList<Tower>();
+		LinkedList<Critter> critterList = new LinkedList<Critter>();
+		Hashtable<Tower,LinkedList<Critter>> aimed = new Hashtable<Tower,LinkedList<Critter>>();
 		//Iterators:
-		Iterator<Tower> towerIterator = null;
 
 
 
 		//this thread will run during each level
 		while(true){
-			//Get the lists of towers and critters
+			
+			//First look for any deadCritters or critters that have reached the end and update CritterManager and Player's account accordingly
+			critterList = critterManager.getCrittersList();
+			for (Iterator<Critter> iterator = critterList.iterator(); iterator.hasNext();) {
+			    Critter currentCritter = iterator.next();
+			    if(currentCritter.getHitPoints()<=0){
+					player.addGold(currentCritter.getReward());
+					critterManager.removeCritter(currentCritter);
+				}
+			    else if(false){
+			    	//TODO: check if critter has reached the end
+			    	
+			    }
+			}
+			
+			//If no towers are set, no need to attack, so wait for the user to place any towers
+			while(towerManager.getTowersList() == null){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//Find the LinkedList of towers and update the hashtable accordingly
 			if(!towerList.equals(towerManager.getTowersList())){
 				towerList = towerManager.getTowersList();
 				for(Tower currentTower:towerList){
-					//Traverse the list of towers, add the tower to the hashtable if it isn't in it already.
+					//Traverse the LinkedList of towers, add the tower to the hashtable if it isn't in it already.
 					if(!aimed.containsKey(currentTower)){
-						aimed.put(currentTower,null);
+						aimed.put(currentTower,new LinkedList<Critter>());
 					}
-				}	
+				}
+				//Remove towers not on the board anymore
+				Enumeration<Tower> registeredTowers = aimed.keys();
+				while(registeredTowers.hasMoreElements()){
+					Tower currentTower = registeredTowers.nextElement();
+					if(!towerList.contains(currentTower)){
+						aimed.remove(currentTower);
+					}
+				}
+			}
+			
+			////Cleans the critter list of any dead critters
+			for(Tower currentTower:towerList){
+				LinkedList<Critter> aimedCritters = aimed.get(currentTower);
+				while(aimedCritters.size()>0 && aimedCritters.remove(null)){
+					
+				}
 			}
 			critterList = critterManager.getCrittersList();
 
@@ -53,10 +100,15 @@ public class Attack extends Thread {
 					Vector2D critterPosition = currentCritter.getPosition();
 					//Compute the displacement between the tower and the critter:
 					Vector2D displacement = towerPosition.getDisplacementVector(critterPosition);
-					//Add to the list if a critter is found to be in range
+					//Add to the LinkedList if a critter is found to be in range
 					if(displacement.getMagnitude()<currentTower.getRange()){
-						if(!aimed.get(currentTower).contains(currentCritter)){
-							List<Critter> towerCritters = aimed.get(currentTower);
+						if(aimed.get(currentTower)==null){
+							LinkedList<Critter> towerCritters = new LinkedList<Critter>();
+							towerCritters.add(currentCritter);
+							aimed.replace(currentTower, towerCritters);
+						}
+						else if(!aimed.get(currentTower).contains(currentCritter)){
+							LinkedList<Critter> towerCritters = aimed.get(currentTower);
 							towerCritters.add(currentCritter);
 							aimed.replace(currentTower, towerCritters);
 						}
@@ -64,43 +116,62 @@ public class Attack extends Thread {
 
 				}
 			}
+			
+			
 
 			for(Tower currentTower:towerList){
 				//If the tower has had time to "reload"
-				if(tick%currentTower.getRateOfFire()==0){
+				int reloadTime = (int)((1.0/currentTower.getRateOfFire())*10);
+				if(tick%reloadTime==0){
 					Vector2D towerPosition = currentTower.getPosition();
-					//Get the list of critters seen by the tower
-					List<Critter> towerCritters = aimed.get(currentTower);
+					//Get the LinkedList of critters seen by the tower
+					LinkedList<Critter> towerCritters = aimed.get(currentTower);
 					for(Critter currentCritter:towerCritters){
 						Vector2D critterPosition = currentCritter.getPosition();
 						//Compute the displacement between the tower and the critter:
 						Vector2D displacement = towerPosition.getDisplacementVector(critterPosition);
 						//If the critter is in range and not dead
+						
 						if(displacement.getMagnitude()<currentTower.getRange() && currentCritter.getHitPoints()>0){
 							//Notify Observers
 							int currHP = currentCritter.takeDamage();
-							//Compute the new health of the critter
-							currHP -= computeDamage(currentTower,currentCritter);
-							currentCritter.setHitPoints(currHP);
-							//TODO: what if the critter is dead.
+							if(currentTower instanceof SpellTower){
+								//If the tower is a spellTower, decrease the speed of the critter
+								int power = currentTower.getPower();
+								int currSpeed = currentCritter.getSpeed();
+								currSpeed -= (int)((float)currSpeed*10.0/(float)power);
+								if(currSpeed<MIN_SPEED){
+									currentCritter.setSpeed(MIN_SPEED);
+								}
+								else{
+									currentCritter.setSpeed(currSpeed);
+								}
+							}
+							else{
+								//Compute the new health of the critter
+								currHP -= computeDamage(currentTower,currentCritter);
+								currentCritter.setHitPoints(currHP);
+							}
+
+							break;
 						}
 					}	
 				}
 
 			}
 
-			//Make the thread sleep for a while before checking again
+			//Make the thread sleep for a while before checking again (200 is a good value)
 			tick++;
 			try {
-				Thread.sleep(100);
+				Thread.sleep(REFRESH_RATE);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 	public int computeDamage(Tower t, Critter c){
-		//TODO: implement better damage computation
-		return t.getPower()/c.getStrength();
+		//TODO: implement better damage computation (x10 for testing)
+		//System.out.println("Power: "+ t.getPower() + " Strength: " + c.getStrength() + " Damage: " + t.getPower()/c.getStrength()*10);
+		return (int)((float)t.getPower()/(float)c.getStrength()*10);
 	}
 }

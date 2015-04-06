@@ -13,9 +13,19 @@ public class GameLogic {
 	private Player player;
 	private Map map;
 	private Tile selectedTile;
+	private Attack attack_thread;
 	
 	public GameLogic(CritterManager cm, TowerManager tm, Player p, Map m) {
+		this.critterManager = cm;
+		this.towerManager = tm;
+		this.player = p;
+		this.map = m;
 		
+	}
+	
+	public void startWave(){
+		attack_thread = new Attack(critterManager,towerManager,player);
+		attack_thread.start();
 	}
 	
 	public boolean purchaseTower(int towerType) {

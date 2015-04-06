@@ -33,7 +33,7 @@ public class CritterManager {
 		
 		public LinkedList<Critter> getCrittersList(){
 			
-			return critters;
+			return (LinkedList<Critter>) critters.clone();
 		}
 		
 

@@ -48,11 +48,4 @@ public class Vector2D {
 		return new Vector2D(x, y);
 	}
 	
-	//To compare two vector objects
-	public boolean equals(Vector2D v){
-		if((v.getX()==this.getX()) && (v.getY() == this.getY())){
-			return true;
-		}
-		return false;
-	}
 }

@@ -1,6 +1,8 @@
 package main.model.critter;
 import java.util.LinkedList;
 
+import main.model.tower.Tower;
+
 
 
 public class CritterManager {
@@ -28,6 +30,11 @@ public class CritterManager {
 			return critters.get(index);
 			
 			
+		}
+		
+		public LinkedList<Critter> getCrittersList(){
+			
+			return critters;
 		}
 		
 

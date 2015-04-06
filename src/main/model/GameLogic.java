@@ -33,7 +33,8 @@ public class GameLogic {
 			default: return false;
 		}
 		int cost = tower.getBuyingCost();
-		if(!player.makePurchase(cost)) return false;
+		if(!player.makePurchase(cost)) 
+			return false;
 		
 		towerManager.addTower(tower);
 		selectedTile.addTower(tower);
@@ -78,5 +79,13 @@ public class GameLogic {
 			player.setHealth(player.getHealth() + 10);
 			return true;
 		}
+	}
+	
+	public void attackCritter(){
+		Critter critter;
+		Map m;
+		
+	
+		while(critter.getPosition() ){}
 	}
 }

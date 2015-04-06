@@ -1,7 +1,6 @@
 package main.model.critter;
 import java.util.LinkedList;
 
-import main.model.tower.Tower;
 
 
 

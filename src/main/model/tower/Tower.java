@@ -70,7 +70,7 @@ public abstract class Tower extends Observable {
                  * notify observer that tower has upgraded
                  */
                 upgraded =true;
-                notifyObservers("u");
+                notifyObservers("upgrade");
           
             
     
@@ -81,7 +81,7 @@ public abstract class Tower extends Observable {
     public int attack(){
        
                
-    	notifyObservers("a");
+    	notifyObservers("attack");
              
         return getPower();  
  

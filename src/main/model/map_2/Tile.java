@@ -1,3 +1,5 @@
+package main.model.map_2;
+
 import java.awt.*;
 /**
  * Tile class. This class is responsible of tile objects placed on the map.

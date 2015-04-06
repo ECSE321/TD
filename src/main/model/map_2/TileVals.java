@@ -1,3 +1,5 @@
+package main.model.map_2;
+
 /**
  * Class to hold constants. (so far only for tiles)
  * @author R

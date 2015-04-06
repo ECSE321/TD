@@ -4,7 +4,7 @@ public class TankCritter extends Critter{
 
 	public TankCritter(int level) {
 		
-		super(level,50+(level*20),50+(level*20),50+(level*20),5,true);
+		super(level,50+(level*20),50+(level*20),50+(level*20),5);
 		
 		/*
 			reward = 50+(level*20);

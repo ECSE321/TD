@@ -14,39 +14,30 @@ public abstract class Critter extends Observable {
 	private int speed;
 	private boolean armoured;
 
-	public Critter(int level,int reward, int hitPoints, int strength, int speed, boolean armoured){
+	public Critter(int level,int reward, int hitPoints, int strength, int speed){
 		this.setLevel(level);
 		this.setReward(reward);
 		this.setHitPoints(hitPoints);
 		this.setStrength(strength);
 		this.setSpeed(speed);
-		this.setArmored(armoured);
+		
 	}
 	
 	void move(){
 		//TODO: implement move
 	}
 	
-	void takeDamage(int enemyStrength, boolean antiArmour, boolean slow) {
-		if(this.getArmored()) {
-			if(!antiArmour) {
-				int currentHP=getHitPoints();
-				this.setHitPoints(currentHP-enemyStrength/2);
-			}
-		} 
-		else {
-			int currentHP=getHitPoints();
-			this.setHitPoints(currentHP-enemyStrength);
-		}
+	public int takeDamage() {
 		
-		if(slow) {
-			int currentSpeed = this.getSpeed();
-			this.setSpeed(currentSpeed/2);
-		}
+		notifyObservers("take");
+		
+		return getHitPoints();
 	}
 	
-	public int stealCoins(){
-		return this.getStrength()*10;
+	public void stealCoins(){
+		
+		notifyObservers("steal");
+		//return getStrength()*10;
 	}
 	
 	
@@ -94,10 +85,5 @@ public abstract class Critter extends Observable {
 		return this.speed;
 	}
 	
-	public void setArmored(boolean armoured){
-		this.armoured = armoured;
-	}
-	public boolean getArmored(){
-		return armoured;
-	}
+	
 }

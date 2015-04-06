@@ -5,7 +5,7 @@ public class NormalCritter extends Critter{
 	
 	public NormalCritter(int level) {
 		
-		super(level,50+(level*10),50+(level*10),50+(level*10),10,false);
+		super(level,50+(level*10),50+(level*10),50+(level*10),10);
 		//level,reward,hitPoints,strength,speed,armored
 		/*
 			reward = 50+(level*10);

@@ -3,7 +3,7 @@ package main.model.critter;
 public class FastCritter extends Critter{
 
 	public FastCritter(int level) {
-		super(level,50+(level*20),50+(level*10),50+(level*10),15 + (level/3),false);
+		super(level,50+(level*20),50+(level*10),50+(level*10),15 + (level/3));
 		
 		/*
 		reward = 50+(level*20)

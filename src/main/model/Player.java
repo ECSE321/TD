@@ -1,6 +1,6 @@
 package main.model;
 
-public class Player {
+public class Player extends Observable{
 	private int health;
 	private int gold;
 	private int level;
@@ -29,6 +29,7 @@ public class Player {
 	
 	public void setGold(int gold) {
 		this.gold = gold;
+		notifyObservers("GoldChange");
 	}
 	
 	public void setLevel(int level) {
@@ -40,11 +41,13 @@ public class Player {
 			return false;
 		} else {
 			this.gold -= gold;
+			notifyObservers("GoldChange");
 			return true;
 		}
 	}
 	
 	public void addGold(int gold) {
+		notifyObservers("GoldChange");
 		this.gold += gold;
 	}
 }

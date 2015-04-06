@@ -2,7 +2,6 @@ package main.model;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import main.model.map.*;
@@ -16,14 +15,6 @@ public class GameLogic {
 	private Map map;
 	private Vector2D spawnPoint;
 	private List<View> views;
-	private Vector2D endPoint;
-	private AttackThread attack_thread;
-	private CritterMonitor critter_thread;
-	
-	double STEAL_RATE = 0.00001;
-	boolean init = true;
-	
-	int previousPlayerMoney = 0;
 	
 	
 	public GameLogic(Map m) {
@@ -33,9 +24,6 @@ public class GameLogic {
 		map = m;
 		spawnPoint = map.getFirstTile().getCenterDrawPosition();
 		views = new ArrayList<View>();
-		endPoint = map.getLastTile().getPosition();
-		attack_thread = new AttackThread(critterManager,towerManager,player);
-		critter_thread = new CritterMonitor(critterManager,player,map);
 	}
 	
 	public List<Critter> getCrittersList() {
@@ -51,7 +39,7 @@ public class GameLogic {
 	}
 	
 	private void moveCritter() {
-		LinkedList<Critter> critters = critterManager.getCrittersList();
+		List<Critter> critters = critterManager.getCrittersList();
 		for (Critter c : critters) {
 				Tile tile = map.getTileAt(c.getPosition());
 				Tile nextTile = ((Path)tile).getNext();
@@ -91,52 +79,8 @@ public class GameLogic {
 		critterManager.addCritter(c);
 	}
 	
-	private boolean areAllCrittersDead(){
-		LinkedList<Critter> critterList = critterManager.getCrittersList();
-		if(critterList.size()==0){
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isPlayerDead(){
-		if(player.getGold() <= 0){
-			return true;
-		}
-		return false;
-	}
-
-	
 	public void updateFrame() {
-		if(init){
-			previousPlayerMoney = player.getGold();
-			if(player.getLevel()==1){
-				critter_thread.start();
-				attack_thread.start();
-			}
-			else{
-				critter_thread = new CritterMonitor(critterManager,player,map);
-				attack_thread = new AttackThread(critterManager, towerManager, player);
-				critter_thread.start();
-				attack_thread.start();
-			}
-			init = false;
-		}
-		
-		if(previousPlayerMoney != player.getGold()){
-			updateViews();
-		}
-		
-		else if(isPlayerDead()){
-			//TODO: deal with game over
-			updateViews();
-		}
-		else if(areAllCrittersDead()){
-			player.setLevel(player.getLevel()+1);
-			updateViews();
-			//TODO: Wait for click
-			init = true;
-		}
+		spawnCritters();
 		moveCritter();
 		
 	}

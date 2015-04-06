@@ -60,9 +60,7 @@ public class Driver {
 				        {
 				            model.updateFrame();
 				            frame.mapPanel.repaint();
-				            frame.mapPanel.revalidate();
 				        }
-				        
 				    },
 				    0,
 				    50);

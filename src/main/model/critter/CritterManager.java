@@ -35,7 +35,7 @@ public class CritterManager {
 			if(critters.isEmpty()) {
 				return new LinkedList<Critter>();
 			}
-			return (LinkedList<Critter>) critters.clone();
+			return critters;
 		}
 		
 

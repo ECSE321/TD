@@ -49,25 +49,25 @@ public class NewJFrame extends javax.swing.JFrame {
 			@Override
 			 public void paintComponent(Graphics g) {
 		        super.paintComponents(g);
-		        g.setColor(Color.GREEN);
 		        
 		        List<Critter> critters = model.getCrittersList();
 		        for(Critter c : critters) {
-		        	g.drawOval(c.getPosition().getX(), c.getPosition().getX(), 10, 10);
+		        	g.setColor(Color.black);
+		        	g.drawOval(c.getPosition().getX(), c.getPosition().getY(), 25, 25);
 		        }
 		        
 		        g.setColor(Color.black);
 		        List<Tile> tiles = model.getTilesList();
 		        for(Tile t : tiles) {
 		        	if(t.isPath()) {
-		        		g.drawRect(t.getPosition().getX(), t.getPosition().getY(), 10, 10);
+		        		g.drawRect(t.getPosition().getX(), t.getPosition().getY(), 50, 50);
 		        	}
 		        }
 		        
 		        g.setColor(Color.PINK);
 		        List<Tower> towers = model.getTowersList();
 		        for(Tower t: towers) {
-		        	g.drawRect(t.getPosition().getX(), t.getPosition().getX(), 10, 10);
+		        	g.drawRect(t.getPosition().getX(), t.getPosition().getY(), 25, 25);
 		        }
 			}
 		};
@@ -394,44 +394,43 @@ public class NewJFrame extends javax.swing.JFrame {
    
 
     private void startWave(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startWave
-        // TODO add your handling code here:
-        //gameLogic.startWave();
+        model.startWave();
     }//GEN-LAST:event_startWave
 
     private void mapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapPanelMouseClicked
         // TODO add your handling code here:
         Point point = evt.getPoint();
-        //gameLogic.selectTile(point);
+        model.selectTile(point);
     }//GEN-LAST:event_mapPanelMouseClicked
 
     private void SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SellActionPerformed
         // TODO add your handling code here:
-        //gameLogic.sellTower();
+        model.sellTower();
     }//GEN-LAST:event_SellActionPerformed
 
     private void UpgradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpgradeActionPerformed
         // TODO add your handling code here:
-        //gameLogic.upgradeTower();
+        model.upgradeTower();
     }//GEN-LAST:event_UpgradeActionPerformed
 
     private void PurchaseDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseDActionPerformed
         // TODO add your handling code here:
-        //gameLogic.purchaseTower(3);
+        model.purchaseTower(3);
     }//GEN-LAST:event_PurchaseDActionPerformed
 
     private void PurchaseCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseCActionPerformed
         // TODO add your handling code here:
-        //gameLogic.purchaseTower(2);
+        model.purchaseTower(2);
     }//GEN-LAST:event_PurchaseCActionPerformed
     
     private void PurchaseBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseBActionPerformed
         // TODO add your handling code here:
-        //gameLogic.purchaseTower(1);
+        model.purchaseTower(1);
     }//GEN-LAST:event_PurchaseBActionPerformed
 
     private void PurchaseAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseAActionPerformed
         // TODO add your handling code here:
-        //gameLogic.purchaseTower(0);
+        model.purchaseTower(0);
     }//GEN-LAST:event_PurchaseAActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

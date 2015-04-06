@@ -3,15 +3,15 @@ package main.model.map;
 import main.model.Vector2D;
 import main.model.tower.Tower;
 
-public abstract class Tile {
+public class Tile {
 	Vector2D position;
 	Tower tower;
-	int size = 10;
+	int size = 50;
 	
-	public Tile(int x, int y) {
-		position = new Vector2D(x,y);
+	public Tile(Vector2D tilePosition) {
+		position = tilePosition;
 	}
-	
+
 	public boolean isPath() {
 		if (this instanceof Path) {
 			return true;
@@ -32,14 +32,22 @@ public abstract class Tile {
 		this.tower = tower;
 	}
 	
+	public void removeTower(Tower t) {
+		this.tower = null;
+	}
+	
 	public boolean isHere(Vector2D v) {
-		if(position.getX() < v.getX()
+		if(position.getX() <= v.getX()
 			&& position.getX() + size > v.getX()
-			&& position.getY() < v.getY()
-			&& position.getY() + size > v.getY()) {
+			&& position.getY() <= v.getY()
+			&& position.getY() + size >= v.getY()) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	public Vector2D getCenterDrawPosition() {
+		return position.getVectorAddition(new Vector2D(12, 12));
 	}
 }

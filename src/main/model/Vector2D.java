@@ -43,4 +43,20 @@ public class Vector2D {
 		int y = (int)Math.round(this.y / magnitudeV);
 		return new Vector2D(x, y);
 	}
+	
+	public double[] getNormalizedCoords() {
+		double magnitudeV = Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) );
+		System.out.println(magnitudeV);
+		double[] coords = new double[2];
+		coords[0] = Math.round(this.x / magnitudeV);
+		coords[1] = Math.round(this.y / magnitudeV);
+		
+		return coords;
+	}
+	
+	public Vector2D getVectorAddition(Vector2D v) {
+		int x = this.x + v.getX();
+		int y = this.y + v.getY();
+		return new Vector2D(x,y);
+	}
 }

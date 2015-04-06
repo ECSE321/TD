@@ -42,7 +42,7 @@ public class GameLogic {
 				Tile nextTile = ((Path)tile).getNext();
 				Vector2D nextTileVector = new Vector2D (nextTile.getCenterDrawPosition().getX(), nextTile.getCenterDrawPosition().getY());
 				Vector2D directionVector = nextTileVector.getDisplacementVector(c.getPosition());
-				Vector2D velocityVector = directionVector.getNormalizedVector().getScalarMultipleVector(c.getSpeed()/10);
+				Vector2D velocityVector = directionVector.getNormalizedVector().getScalarMultipleVector(c.getSpeed()/6);
 				Vector2D newPosition = c.getPosition().getVectorAddition(velocityVector); 
 				c.setPosition(newPosition);
 				System.out.println(c.getPosition().getX() + " , " + c.getPosition().getY());

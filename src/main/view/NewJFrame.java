@@ -42,6 +42,8 @@ public class NewJFrame extends javax.swing.JFrame {
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	Image pathImage = new ImageIcon("src/main/view/img/path.png").getImage();
+    	Image landscapeImage = new ImageIcon("src/main/view/img/landscape.png").getImage();
 
         jPanel1 = new javax.swing.JPanel();
 		mapPanel = new javax.swing.JPanel() {
@@ -50,24 +52,29 @@ public class NewJFrame extends javax.swing.JFrame {
 			 public void paintComponent(Graphics g) {
 		        super.paintComponents(g);
 		        
-		        List<Critter> critters = model.getCrittersList();
-		        for(Critter c : critters) {
-		        	g.setColor(Color.black);
-		        	g.drawOval(c.getPosition().getX(), c.getPosition().getY(), 25, 25);
-		        }
-		        
 		        g.setColor(Color.black);
 		        List<Tile> tiles = model.getTilesList();
 		        for(Tile t : tiles) {
 		        	if(t.isPath()) {
 		        		g.drawRect(t.getPosition().getX(), t.getPosition().getY(), 50, 50);
+		        		g.drawImage(pathImage, t.getPosition().getX(), t.getPosition().getY(),
+		        				50, 50, null);
+		        	} else {
+		        		g.drawImage(landscapeImage, t.getPosition().getX(), t.getPosition().getY(),
+		        				50, 50, null);
 		        	}
+		        }
+		        
+		        List<Critter> critters = model.getCrittersList();
+		        for(Critter c : critters) {
+		        	g.setColor(Color.black);
+		        	g.fillOval(c.getPosition().getX(), c.getPosition().getY(), 25, 25);
 		        }
 		        
 		        g.setColor(Color.PINK);
 		        List<Tower> towers = model.getTowersList();
 		        for(Tower t: towers) {
-		        	g.drawRect(t.getPosition().getX(), t.getPosition().getY(), 25, 25);
+		        	g.fillRect(t.getPosition().getX(), t.getPosition().getY(), 25, 25);
 		        }
 			}
 		};
@@ -117,7 +124,7 @@ public class NewJFrame extends javax.swing.JFrame {
         mapPanel.setLayout(mapPanelLayout);
         mapPanelLayout.setHorizontalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 407, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         mapPanelLayout.setVerticalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

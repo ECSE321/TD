@@ -12,8 +12,7 @@ public abstract class Critter extends Observable {
 	private int hitPoints;
 	private int strength;
 	private int speed;
-	private boolean armoured;
-
+	
 	public Critter(int level,int reward, int hitPoints, int strength, int speed){
 		this.setLevel(level);
 		this.setReward(reward);

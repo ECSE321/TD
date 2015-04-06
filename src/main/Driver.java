@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import main.model.GameLogic;
 import main.model.Vector2D;
 import main.model.map.Map;
-import main.model.map.Path;
 import main.model.map.Tile;
 import main.view.NewJFrame;
 

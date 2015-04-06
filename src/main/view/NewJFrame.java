@@ -47,15 +47,15 @@ public class NewJFrame extends javax.swing.JFrame implements View {
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-    	Image pathImage = new ImageIcon("src/img/path.png").getImage();
-    	Image landscapeImage = new ImageIcon("src/img/landscape.png").getImage();
+    	Image pathImage = new ImageIcon("src/main/view/img/path.png").getImage();
+    	Image landscapeImage = new ImageIcon("src/main/view/img/landscape.png").getImage();
 
         jPanel1 = new javax.swing.JPanel();
 		mapPanel = new javax.swing.JPanel() {
 		
 			@Override
 			 public void paintComponent(Graphics g) {
-				super.paintComponent(g);
+		        super.paintComponents(g);
 		        
 		        g.setColor(Color.black);
 		        List<Tile> tiles = model.getTilesList();

@@ -148,7 +148,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
         jPanel4 = new javax.swing.JPanel();
         playerPanel = new javax.swing.JPanel();
         Gold = new javax.swing.JLabel();
-        Health = new javax.swing.JLabel();
+       // Health = new javax.swing.JLabel();
         Level = new javax.swing.JLabel();
         NextWave = new javax.swing.JButton();
         
@@ -368,7 +368,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 
         Gold.setText("Gold");
 
-        Health.setText("Health");
+        //Health.setText("Health");
 
         Level.setText("Level");
 
@@ -387,7 +387,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
                 .addContainerGap()
                 .addGroup(playerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Gold)
-                    .addComponent(Health)
+                    //.addComponent(Health)
                     .addComponent(Level))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(playerPanelLayout.createSequentialGroup()
@@ -400,7 +400,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
                 .addContainerGap()
                 .addComponent(Gold)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Health)
+                //.addComponent(Health)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Level)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 312, Short.MAX_VALUE)
@@ -566,7 +566,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
     private javax.swing.JLabel CostC;
     private javax.swing.JLabel CostD;
     private javax.swing.JLabel Gold;
-    private javax.swing.JLabel Health;
+   // private javax.swing.JLabel Health;
     private javax.swing.JLabel Level;
     private javax.swing.JButton NextWave;
     private javax.swing.JButton PurchaseA;
@@ -615,7 +615,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 		
 		
 		Gold.setText("Gold: " + playerGold);
-		Health.setText("Health: " + model.getPlayer().getHealth());
+		//Health.setText("Health: " + model.getPlayer().getHealth());
 		Level.setText("Level: " + model.getPlayer().getLevel());
 	}
 }

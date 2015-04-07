@@ -42,7 +42,7 @@ public class Driver {
 				 */
 				
 				
-				final GameLogic model = new GameLogic(map);
+                final GameLogic model = new GameLogic(map);
 				
 				final NewJFrame frame = new NewJFrame(model);
 				frame.setVisible(true);

@@ -47,8 +47,8 @@ public class NewJFrame extends javax.swing.JFrame implements View {
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-    	final Image pathImage = new ImageIcon("src2/main/view/img/path.png").getImage();
-    	final Image landscapeImage = new ImageIcon("src2/main/view/img/landscape.png").getImage();
+    	final Image pathImage = new ImageIcon("src/main/view/img/path.png").getImage();
+    	final Image landscapeImage = new ImageIcon("src/main/view/img/landscape.png").getImage();
 
         jPanel1 = new javax.swing.JPanel();
 		mapPanel = new javax.swing.JPanel() {
@@ -450,6 +450,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
     private void UpgradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpgradeActionPerformed
         // TODO add your handling code here:
         model.upgradeTower();
+        updateUpgrade();
     }//GEN-LAST:event_UpgradeActionPerformed
 
     private void PurchaseDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseDActionPerformed
@@ -513,6 +514,10 @@ public class NewJFrame extends javax.swing.JFrame implements View {
     	if(model.getSelectedTile().getTower() != null) {
     		cost = model.getSelectedTile().getTower().getUpgradeCost();
     		refund = model.getSelectedTile().getTower().getRefundValue();
+    		if(model.getPlayer().getGold() < model.getSelectedTile().getTower().getUpgradeCost()) {
+    			Upgrade.setEnabled(false);
+    		}
+    		
     	} else {
     		cost = 0;
     		refund = 0;
@@ -566,19 +571,16 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 		if(playerGold < 1200) {
 			PurchaseA.setEnabled(false);
 		}
-		if(playerGold < 1200) {
+		if(playerGold < 1500) {
 			PurchaseB.setEnabled(false);
 		}
-		if(playerGold < 1200) {
+		if(playerGold < 1800) {
 			PurchaseC.setEnabled(false);
 		}
-		if(playerGold < 1200) {
+		if(playerGold < 1000) {
 			PurchaseD.setEnabled(false);
 		}
 		
-		if(playerGold < 1200) {
-			Upgrade.setEnabled(false);
-		}
 		
 		Gold.setText("Gold: " + playerGold);
 		Health.setText("Health: " + model.getPlayer().getHealth());

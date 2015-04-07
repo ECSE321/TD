@@ -19,6 +19,9 @@ import main.model.GameLogic;
 import main.model.View;
 import main.model.critter.*;
 import main.model.map.Tile;
+import main.model.tower.CanonTower;
+import main.model.tower.MachineGunTower;
+import main.model.tower.MortarTower;
 import main.model.tower.Tower;
 
 /**
@@ -77,13 +80,27 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 		        
 		        List<Critter> critters = model.getCrittersList();
 		        for(Critter c : critters) {
-		        	g.setColor(Color.blue);
+		        	if(c instanceof FastCritter) {
+		        		g.setColor(Color.pink);
+		        	}else if(c instanceof TankCritter) {
+		        		g.setColor(Color.green);
+		        	} else {
+		        		g.setColor(Color.blue);
+		        	}
 		        	g.fillOval(c.getPosition().getX(), c.getPosition().getY(), 25, 25);
 		        }
 		        
-		        g.setColor(Color.PINK);
 		        List<Tower> towers = model.getTowersList();
 		        for(Tower t: towers) {
+		        	if(t instanceof CanonTower) {
+		        		g.setColor(Color.blue);
+		        	} else if(t instanceof MachineGunTower) {
+		        		g.setColor(Color.yellow);
+		        	} else if(t instanceof MortarTower) {
+		        		g.setColor(Color.orange);
+		        	} else {
+		        		g.setColor(Color.cyan);
+		        	}
 		        	g.fillRect(t.getPosition().getX(), t.getPosition().getY(), 25, 25);
 		        }
 			}

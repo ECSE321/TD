@@ -16,13 +16,13 @@ public class GameLogic {
 	private Map map;
 	private Vector2D spawnPoint;
 	private List<View> views;
-	private Vector2D endPoint;
 	private AttackThread attack_thread;
 	private CritterGenerator critter_thread;
 	
 	boolean init = true;
 	boolean waiting = false;
 	
+	int STEAL_FACTOR = 10;
 	int previousPlayerMoney = 0;
 	
 	
@@ -33,7 +33,7 @@ public class GameLogic {
 		map = m;
 		spawnPoint = map.getFirstTile().getCenterDrawPosition();
 		views = new ArrayList<View>();
-		endPoint = map.getLastTile().getPosition();
+		map.getLastTile().getPosition();
 		attack_thread = new AttackThread(critterManager,towerManager,player);
 		critter_thread = new CritterGenerator(critterManager,player,map);
 	}
@@ -56,13 +56,13 @@ public class GameLogic {
 				Tile tile = map.getTileAt(c.getPosition());
 				Tile nextTile = ((Path)tile).getNext();
 				if(nextTile==null){
-					int newAmmount = (int) (player.getGold()-c.getLevel());
+					int newAmmount = (int) (player.getGold()-c.getLevel()*STEAL_FACTOR);
 					if(newAmmount<0){
 						player.setGold(0);
 					}
 					else{
 						//Use the makePurchase Method to notify
-						player.makePurchase(c.getLevel());
+						player.makePurchase(c.getLevel()*STEAL_FACTOR);
 					}
 					critterManager.removeCritter(c);
 					continue;
@@ -149,6 +149,7 @@ public class GameLogic {
 			waiting = true;
 			
 		}
+		//If no critters are present and the generator has finished generating new ones, the wave is finished
 		else if(areAllCrittersDead()&&!critter_thread.isAlive()){
 			player.setLevel(player.getLevel()+1);
 			updateViews();

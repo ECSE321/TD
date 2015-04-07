@@ -54,8 +54,8 @@ public class AttackThread extends Thread {
 			}
 			
 			critterList = critterManager.getCrittersList();
-			//Once all criters are dead, stop the thread
-			if(critterList.size()<1 || player.getGold()<0){
+			//Once all criters are dead, stop the thread (make sure to wait some time)
+			if((critterList.size()<1 || player.getGold()<0) && tick>1000){
 				return;
 			}
 			
@@ -140,7 +140,8 @@ public class AttackThread extends Thread {
 						//System.out.println("Distance: " + distance);
 						
 						if(distance<currentTower.getRange() && currentCritter.getHitPoints()>0){
-							//Notify Observers
+							System.out.println("HIT");
+							//Notify observers
 							int currHP = currentCritter.takeDamage();
 							if(currentTower instanceof SpellTower){
 								//If the tower is a spellTower, decrease the speed of the critter
@@ -179,6 +180,6 @@ public class AttackThread extends Thread {
 	public int computeDamage(Tower t, Critter c){
 		//TODO: implement better damage computation (x10 for testing)
 		//System.out.println("Power: "+ t.getPower() + " Strength: " + c.getStrength() + " Damage: " + t.getPower()/c.getStrength()*10);
-		return (int)((float)t.getPower()/(float)c.getStrength()*10);
+		return (int)((float)t.getPower()/(float)c.getStrength()*1000);
 	}
 }

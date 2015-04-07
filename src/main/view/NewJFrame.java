@@ -47,8 +47,8 @@ public class NewJFrame extends javax.swing.JFrame implements View {
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-    	final Image pathImage = new ImageIcon("src2/main/view/img/path.png").getImage();
-    	final Image landscapeImage = new ImageIcon("src2/main/view/img/landscape.png").getImage();
+    	final Image pathImage = new ImageIcon("src/main/view/img/path.png").getImage();
+    	final Image landscapeImage = new ImageIcon("src/main/view/img/landscape.png").getImage();
 
         jPanel1 = new javax.swing.JPanel();
 		mapPanel = new javax.swing.JPanel() {

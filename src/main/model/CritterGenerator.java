@@ -1,6 +1,8 @@
 package main.model;
 
 
+import java.util.Random;
+
 import main.model.critter.*;
 import main.model.map.Map;
 
@@ -9,6 +11,7 @@ public class CritterGenerator extends Thread {
 	private CritterManager critterManager;
 	private Player player;
 	private Map map;
+	Random r = new Random();
 	
 	Vector2D spawnPoint;
 	
@@ -41,12 +44,16 @@ public class CritterGenerator extends Thread {
 	
 	private void addRandomCritter(Vector2D position, int level) {
 		Critter c;
-		int typeOfCritter = (int)Math.round(Math.random()*2);
+		int typeOfCritter = r.nextInt(3);
 		switch (typeOfCritter) {
 			case 0: c = new NormalCritter(level);
+					break;
 			case 1: c = new FastCritter(level);
+					break;
 			case 2: c = new TankCritter(level);
+					break;
 			default: c = new NormalCritter(level);
+					break;
 		}
 		c.setPosition(position);
 		critterManager.addCritter(c);

@@ -19,6 +19,9 @@ import main.model.GameLogic;
 import main.model.View;
 import main.model.critter.*;
 import main.model.map.Tile;
+import main.model.tower.CanonTower;
+import main.model.tower.MachineGunTower;
+import main.model.tower.MortarTower;
 import main.model.tower.Tower;
 
 /**
@@ -77,14 +80,43 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 		        
 		        List<Critter> critters = model.getCrittersList();
 		        for(Critter c : critters) {
-		        	g.setColor(Color.blue);
+		        	if(c instanceof FastCritter) {
+		        		g.setColor(Color.pink);
+		        	}else if(c instanceof TankCritter) {
+		        		g.setColor(Color.green);
+		        	} else {
+		        		g.setColor(Color.blue);
+		        	}
 		        	g.fillOval(c.getPosition().getX(), c.getPosition().getY(), 25, 25);
+		        	int health = c.getHitPoints();
+		        	g.setColor(Color.red);
+		        	g.fillRect(c.getPosition().getX(), c.getPosition().getY(), health/3, 5);
 		        }
 		        
-		        g.setColor(Color.PINK);
 		        List<Tower> towers = model.getTowersList();
 		        for(Tower t: towers) {
-		        	g.fillRect(t.getPosition().getX(), t.getPosition().getY(), 25, 25);
+		        	if(t instanceof CanonTower) {
+		        		g.setColor(Color.blue);
+		        	} else if(t instanceof MachineGunTower) {
+		        		g.setColor(Color.yellow);
+		        	} else if(t instanceof MortarTower) {
+		        		g.setColor(Color.orange);
+		        	} else {
+		        		g.setColor(Color.cyan);
+		        	}
+		        	g.fillRect(t.getPosition().getX() - 12, t.getPosition().getY() - 12, 25, 25);
+		        }
+		        
+		        if(model.getMap().getSelectedTile() != null) {
+		        	if(model.getMap().getSelectedTile().getTower() != null) {
+		        		g.setColor(Color.red);
+		        		Tower t = model.getMap().getSelectedTile().getTower();
+		        		int range = t.getRange()*10;
+		        		int x = t.getPosition().getX() - range/2;
+		        		int y = t.getPosition().getY() - range/2;
+		        		((Graphics2D)g).setStroke(new BasicStroke(2));
+		        		g.drawOval(x, y, range, range);
+		        	}
 		        }
 			}
 		};
@@ -134,7 +166,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        mapPanel.setBackground(new java.awt.Color(0, 238, 238));
+        mapPanel.setBackground(new java.awt.Color(238, 238, 238));
         mapPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mapPanelMouseClicked(evt);
@@ -152,7 +184,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        PurchasePanel.setBackground(new java.awt.Color(238, 0, 238));
+        PurchasePanel.setBackground(new java.awt.Color(238, 238, 238));
 
         PurchaseA.setText("Purchase");
         PurchaseA.addActionListener(new java.awt.event.ActionListener() {
@@ -332,7 +364,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
                 .addContainerGap())
         );
 
-        playerPanel.setBackground(new java.awt.Color(238, 238, 0));
+        playerPanel.setBackground(new java.awt.Color(238, 238, 238));
 
         Gold.setText("Gold");
 

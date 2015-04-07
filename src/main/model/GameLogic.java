@@ -14,7 +14,6 @@ public class GameLogic {
 	private TowerManager towerManager;
 	private Player player;
 	private Map map;
-	private Vector2D spawnPoint;
 	private List<View> views;
 	private AttackThread attack_thread;
 	private CritterGenerator critter_thread;
@@ -31,7 +30,7 @@ public class GameLogic {
 		towerManager = new TowerManager();
 		player = new Player();
 		map = m;
-		spawnPoint = map.getFirstTile().getCenterDrawPosition();
+		map.getFirstTile().getCenterDrawPosition();
 		views = new ArrayList<View>();
 		map.getLastTile().getPosition();
 		attack_thread = new AttackThread(critterManager,towerManager,player);
@@ -69,40 +68,37 @@ public class GameLogic {
 				}
 				Vector2D nextTileVector = new Vector2D (nextTile.getCenterDrawPosition().getX()+13, nextTile.getCenterDrawPosition().getY()+13);
 				Vector2D directionVector = nextTileVector.getDisplacementVector(c.getPosition());
-				Vector2D velocityVector = directionVector.getNormalizedVector().getScalarMultipleVector(c.getSpeed()/6);
+				Vector2D velocityVector = directionVector.getNormalizedVector().getScalarMultipleVector(c.getSpeed()/5);
 				Vector2D newPosition = c.getPosition().getVectorAddition(velocityVector); 
 				c.setPosition(newPosition);
 				//System.out.println(c.getPosition().getX() + " , " + c.getPosition().getY() + " health: " + c.getHitPoints());
 		}
 	}
-	
-	private int crittersToSpawn;
-	private int spawnCounter = 50;
-	private void spawnCritters() {
-		if(crittersToSpawn > 0) {
-			if(spawnCounter == 0) {
-				addRandomCritter(spawnPoint, player.getLevel());
-				crittersToSpawn--;
-				spawnCounter = 50;
-			} else {
-				spawnCounter--;
+
+	private void checkEndOfPath() {
+		List<Critter> critters = critterManager.getCrittersList();
+		for(Critter c: critters) {
+			Tile tile = map.getTileAt(c.getPosition());
+			if(((Path)tile).getNext() == null) {
+				int strength = c.getStrength();
+				player.setGold(player.getGold() - strength);
+				player.setHealth(player.getHealth() - strength);
+				critterManager.removeCritter(c);
 			}
 		}
 	}
 	
-	private void addRandomCritter(Vector2D position, int level) {
-		Critter c;
-		int typeOfCritter = (int)Math.round(Math.random()*2);
-		switch (typeOfCritter) {
-			case 0: c = new NormalCritter(level);
-			case 1: c = new FastCritter(level);
-			case 2: c = new TankCritter(level);
-			default: c = new NormalCritter(level);
+	private void checkDeadCritters() {
+		List<Critter> critters = critterManager.getCrittersList();
+		for(Critter c: critters) {
+			if(c.getHitPoints() <= 0) {
+				int reward = c.getReward();
+				critterManager.removeCritter(c);
+				player.addGold(reward);
+			}
 		}
-		c.setPosition(position);
-		critterManager.addCritter(c);
 	}
-	
+
 	private boolean areAllCrittersDead(){
 		LinkedList<Critter> critterList = critterManager.getCrittersList();
 		if(critterList.size()==0){
@@ -117,6 +113,7 @@ public class GameLogic {
 		}
 		return false;
 	}
+
 
 	
 	public void updateFrame() {
@@ -157,7 +154,8 @@ public class GameLogic {
 			waiting = true;
 		}
 		moveCritter();
-		
+		checkDeadCritters();
+		checkEndOfPath();
 	}
 	
 	/*
@@ -176,10 +174,15 @@ public class GameLogic {
 		System.out.println(position.getX() + " , " + position.getY());
 		switch(towerType) {
 			case 0: t = new CanonTower(position);
+					break;
 			case 1: t = new MachineGunTower(position);
+					break;
 			case 2: t = new MortarTower(position);
+					break;
 			case 3: t = new SpellTower(position);
+					break;
 			default: t = new CanonTower(position);
+					break;
 		}
 		towerManager.addTower(t);
 		map.getSelectedTile().addTower(t);
@@ -203,6 +206,7 @@ public class GameLogic {
 		updateViews();
 	}
 	
+	int crittersToSpawn;
 	public void startWave() {
 		crittersToSpawn = player.getLevel() * 2;
 		waiting = false;
@@ -224,5 +228,9 @@ public class GameLogic {
 		for (View v: views) {
 			v.update();
 		}
+	}
+	
+	public Map getMap() {
+		return map;
 	}
 }

@@ -14,7 +14,7 @@ import main.model.tower.TowerManager;
 public class AttackThread extends Thread {
 	//Constants:
 	int MIN_SPEED = 5;
-	int REFRESH_RATE = 50;
+	int REFRESH_RATE = 100;
 	int DISTANCE_MODIFIER = 10;
 	int WAIT_DELAY = 500; //Delay in ms that the thread pauses when it doesn't find towers
 	
@@ -55,7 +55,7 @@ public class AttackThread extends Thread {
 			
 			critterList = critterManager.getCrittersList();
 			//Once all criters are dead, stop the thread (make sure to wait some time)
-			if((critterList.size()<1 || player.getGold()<0) && tick>1000){
+			if((critterList.size()<1 || player.getGold()<0) && tick>15){
 				return;
 			}
 			
@@ -180,6 +180,6 @@ public class AttackThread extends Thread {
 	public int computeDamage(Tower t, Critter c){
 		//TODO: implement better damage computation (x10 for testing)
 		//System.out.println("Power: "+ t.getPower() + " Strength: " + c.getStrength() + " Damage: " + t.getPower()/c.getStrength()*10);
-		return (int)((float)t.getPower()/(float)c.getStrength()*1000);
+		return (int)((float)t.getPower()/(float)c.getStrength()*10);
 	}
 }

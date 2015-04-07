@@ -2,6 +2,7 @@ package main.model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import main.model.map.*;
@@ -15,6 +16,14 @@ public class GameLogic {
 	private Map map;
 	private Vector2D spawnPoint;
 	private List<View> views;
+	private AttackThread attack_thread;
+	private CritterGenerator critter_thread;
+	
+	boolean init = true;
+	boolean waiting = false;
+	
+	int STEAL_FACTOR = 50;
+	int previousPlayerMoney = 0;
 	
 	
 	public GameLogic(Map m) {
@@ -24,6 +33,9 @@ public class GameLogic {
 		map = m;
 		spawnPoint = map.getFirstTile().getCenterDrawPosition();
 		views = new ArrayList<View>();
+		map.getLastTile().getPosition();
+		attack_thread = new AttackThread(critterManager,towerManager,player);
+		critter_thread = new CritterGenerator(critterManager,player,map);
 	}
 	
 	public List<Critter> getCrittersList() {
@@ -39,21 +51,34 @@ public class GameLogic {
 	}
 	
 	private void moveCritter() {
-		List<Critter> critters = critterManager.getCrittersList();
+		LinkedList<Critter> critters = critterManager.getCrittersList();
 		for (Critter c : critters) {
 				Tile tile = map.getTileAt(c.getPosition());
 				Tile nextTile = ((Path)tile).getNext();
+				if(nextTile==null){
+					int newAmmount = (int) (player.getGold()-c.getLevel()*STEAL_FACTOR);
+					if(newAmmount<0){
+						player.setGold(0);
+					}
+					else{
+						//Use the makePurchase Method to notify
+						player.makePurchase(c.getLevel()*STEAL_FACTOR);
+					}
+					critterManager.removeCritter(c);
+					continue;
+				}
 				Vector2D nextTileVector = new Vector2D (nextTile.getCenterDrawPosition().getX()+13, nextTile.getCenterDrawPosition().getY()+13);
 				Vector2D directionVector = nextTileVector.getDisplacementVector(c.getPosition());
 				Vector2D velocityVector = directionVector.getNormalizedVector().getScalarMultipleVector(c.getSpeed()/6);
 				Vector2D newPosition = c.getPosition().getVectorAddition(velocityVector); 
 				c.setPosition(newPosition);
-				System.out.println(c.getPosition().getX() + " , " + c.getPosition().getY());
+				//System.out.println(c.getPosition().getX() + " , " + c.getPosition().getY() + " health: " + c.getHitPoints());
 		}
 	}
 	
 	private int crittersToSpawn;
 	private int spawnCounter = 50;
+	
 	private void spawnCritters() {
 		if(crittersToSpawn > 0) {
 			if(spawnCounter == 0) {
@@ -79,6 +104,7 @@ public class GameLogic {
 		critterManager.addCritter(c);
 	}
 	
+
 	private void checkEndOfPath() {
 		List<Critter> critters = critterManager.getCrittersList();
 		for(Critter c: critters) {
@@ -102,9 +128,61 @@ public class GameLogic {
 			}
 		}
 	}
+
+	private boolean areAllCrittersDead(){
+		LinkedList<Critter> critterList = critterManager.getCrittersList();
+		if(critterList.size()==0){
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isPlayerDead(){
+		if(player.getGold() <= 0){
+			return true;
+		}
+		return false;
+	}
+
+
 	
 	public void updateFrame() {
-		spawnCritters();
+		if(waiting){
+			return;
+		}
+		if(init){
+			previousPlayerMoney = player.getGold();
+			if(player.getLevel()==1){
+				critter_thread.start();
+				attack_thread.start();
+			}
+			else{
+				critter_thread = new CritterGenerator(critterManager,player,map);
+				attack_thread = new AttackThread(critterManager, towerManager, player);
+				critter_thread.start();
+				attack_thread.start();
+			}
+			init = false;
+		}
+		
+		if(previousPlayerMoney != player.getGold()){
+			updateViews();
+			previousPlayerMoney = player.getGold();
+		}
+		
+		else if(isPlayerDead()){
+			//TODO: deal with game over
+			updateViews();
+			waiting = true;
+			
+		}
+		//If no critters are present and the generator has finished generating new ones, the wave is finished
+		else if(areAllCrittersDead()&&!critter_thread.isAlive()){
+			player.setLevel(player.getLevel()+1);
+			updateViews();
+			init = true;
+			waiting = true;
+		}
 		moveCritter();
 		checkDeadCritters();
 		checkEndOfPath();
@@ -155,6 +233,7 @@ public class GameLogic {
 	
 	public void startWave() {
 		crittersToSpawn = player.getLevel() * 2;
+		waiting = false;
 	}
 	
 	public Tile getSelectedTile() {

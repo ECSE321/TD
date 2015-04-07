@@ -59,4 +59,8 @@ public class Vector2D {
 		int y = this.y + v.getY();
 		return new Vector2D(x,y);
 	}
+
+	public int getMagnitude() {
+		return (int) Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) );
+	}
 }

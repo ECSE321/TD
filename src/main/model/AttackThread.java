@@ -110,13 +110,11 @@ public class AttackThread extends Thread {
 							LinkedList<Critter> towerCritters = new LinkedList<Critter>();
 							towerCritters.add(currentCritter);
 							aimed.replace(currentTower, towerCritters);
-							System.out.println("FIRST CRITTER");
 						}
 						else if(!aimed.get(currentTower).contains(currentCritter)){
 							LinkedList<Critter> towerCritters = aimed.get(currentTower);
 							towerCritters.add(currentCritter);
 							aimed.replace(currentTower, towerCritters);
-							System.out.println("OTHER CRITTERS");
 						}
 					}
 

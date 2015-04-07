@@ -1,8 +1,6 @@
 package main.model;
 
 
-import java.util.LinkedList;
-
 import main.model.critter.*;
 import main.model.map.Map;
 
@@ -13,19 +11,17 @@ public class CritterMonitor extends Thread {
 	private Map map;
 	
 	Vector2D spawnPoint;
-	Vector2D endPoint;
 	
 	//Constant
 	private int DELAY = 1500; //Delay between each new Critter in ms
-	private int REFRESH_RATE = 500; //Delay between each check for critter at end
-	private double STEAL_RATE = 0.00001;
+	//private int REFRESH_RATE = 500; //Delay between each check for critter at end
+	//private double STEAL_RATE = 0.00001;
 	
 	public CritterMonitor(CritterManager cm, Player p, Map m) {
 		this.critterManager = cm;
 		this.player = p;
 		this.map = m;
 		this.spawnPoint = map.getFirstTile().getCenterDrawPosition();
-		this.endPoint = map.getLastTile().getPosition();
 	}
 	
 	public void run(){
@@ -39,6 +35,8 @@ public class CritterMonitor extends Thread {
 			}
 		}
 		
+		return;
+		/*
 		while(true){
 			LinkedList<Critter> critterList = critterManager.getCrittersList();
 			if(critterList.size()==0){
@@ -62,6 +60,7 @@ public class CritterMonitor extends Thread {
 				e.printStackTrace();
 			}
 		}
+		*/
 	}
 	
 	

@@ -55,6 +55,18 @@ public class GameLogic {
 		for (Critter c : critters) {
 				Tile tile = map.getTileAt(c.getPosition());
 				Tile nextTile = ((Path)tile).getNext();
+				if(nextTile==null){
+					int newAmmount = (int) (player.getGold()-c.getLevel());
+					if(newAmmount<0){
+						player.setGold(0);
+					}
+					else{
+						//Use the makePurchase Method to notify
+						player.makePurchase(c.getLevel());
+					}
+					critterManager.removeCritter(c);
+					continue;
+				}
 				Vector2D nextTileVector = new Vector2D (nextTile.getCenterDrawPosition().getX()+13, nextTile.getCenterDrawPosition().getY()+13);
 				Vector2D directionVector = nextTileVector.getDisplacementVector(c.getPosition());
 				Vector2D velocityVector = directionVector.getNormalizedVector().getScalarMultipleVector(c.getSpeed()/6);
@@ -132,7 +144,7 @@ public class GameLogic {
 			//TODO: deal with game over
 			updateViews();
 		}
-		else if(areAllCrittersDead()){
+		else if(areAllCrittersDead()&&!critter_thread.isAlive()){
 			player.setLevel(player.getLevel()+1);
 			updateViews();
 			//TODO: Wait for click

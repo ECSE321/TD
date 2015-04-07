@@ -182,7 +182,7 @@ public abstract class Tower extends Observable {
 	}
 	
 	public Vector2D getPosition() {
-		return position;
+		return new Vector2D(position.getX()+12, position.getY()+12);
 	}
  
 }

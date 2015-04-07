@@ -229,4 +229,8 @@ public class GameLogic {
 			v.update();
 		}
 	}
+	
+	public Map getMap() {
+		return map;
+	}
 }

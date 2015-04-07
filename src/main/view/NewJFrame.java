@@ -88,6 +88,9 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 		        		g.setColor(Color.blue);
 		        	}
 		        	g.fillOval(c.getPosition().getX(), c.getPosition().getY(), 25, 25);
+		        	int health = c.getHitPoints();
+		        	g.setColor(Color.red);
+		        	g.fillRect(c.getPosition().getX(), c.getPosition().getY(), health/3, 5);
 		        }
 		        
 		        List<Tower> towers = model.getTowersList();
@@ -101,7 +104,19 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 		        	} else {
 		        		g.setColor(Color.cyan);
 		        	}
-		        	g.fillRect(t.getPosition().getX(), t.getPosition().getY(), 25, 25);
+		        	g.fillRect(t.getPosition().getX() - 12, t.getPosition().getY() - 12, 25, 25);
+		        }
+		        
+		        if(model.getMap().getSelectedTile() != null) {
+		        	if(model.getMap().getSelectedTile().getTower() != null) {
+		        		g.setColor(Color.red);
+		        		Tower t = model.getMap().getSelectedTile().getTower();
+		        		int range = t.getRange()*10;
+		        		int x = t.getPosition().getX() - range/2;
+		        		int y = t.getPosition().getY() - range/2;
+		        		((Graphics2D)g).setStroke(new BasicStroke(2));
+		        		g.drawOval(x, y, range, range);
+		        	}
 		        }
 			}
 		};
@@ -151,7 +166,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        mapPanel.setBackground(new java.awt.Color(0, 238, 238));
+        mapPanel.setBackground(new java.awt.Color(238, 238, 238));
         mapPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mapPanelMouseClicked(evt);
@@ -169,7 +184,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        PurchasePanel.setBackground(new java.awt.Color(238, 0, 238));
+        PurchasePanel.setBackground(new java.awt.Color(238, 238, 238));
 
         PurchaseA.setText("Purchase");
         PurchaseA.addActionListener(new java.awt.event.ActionListener() {
@@ -349,7 +364,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
                 .addContainerGap())
         );
 
-        playerPanel.setBackground(new java.awt.Color(238, 238, 0));
+        playerPanel.setBackground(new java.awt.Color(238, 238, 238));
 
         Gold.setText("Gold");
 

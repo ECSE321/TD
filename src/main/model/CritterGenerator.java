@@ -4,7 +4,7 @@ package main.model;
 import main.model.critter.*;
 import main.model.map.Map;
 
-public class CritterMonitor extends Thread {
+public class CritterGenerator extends Thread {
 	
 	private CritterManager critterManager;
 	private Player player;
@@ -17,7 +17,7 @@ public class CritterMonitor extends Thread {
 	//private int REFRESH_RATE = 500; //Delay between each check for critter at end
 	//private double STEAL_RATE = 0.00001;
 	
-	public CritterMonitor(CritterManager cm, Player p, Map m) {
+	public CritterGenerator(CritterManager cm, Player p, Map m) {
 		this.critterManager = cm;
 		this.player = p;
 		this.map = m;
@@ -36,31 +36,6 @@ public class CritterMonitor extends Thread {
 		}
 		
 		return;
-		/*
-		while(true){
-			LinkedList<Critter> critterList = critterManager.getCrittersList();
-			if(critterList.size()==0){
-				return;
-			}
-			for(Critter c:critterList){
-				if(c.getPosition().getX() >= endPoint.getX()){
-					int newAmmount = (int) (player.getGold()-c.getLevel()*STEAL_RATE);
-					if(newAmmount<0){
-						player.setGold(0);
-					}
-					else{
-						//Use the makePurchase Method to notify
-						player.makePurchase(c.getLevel());
-					}
-				}
-			}
-			try {
-				Thread.sleep(REFRESH_RATE);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		*/
 	}
 	
 	

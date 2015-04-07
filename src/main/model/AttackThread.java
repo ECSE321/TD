@@ -14,7 +14,7 @@ import main.model.tower.TowerManager;
 public class AttackThread extends Thread {
 	//Constants:
 	int MIN_SPEED = 5;
-	int REFRESH_RATE = 50;
+	int REFRESH_RATE = 100;
 	int DISTANCE_MODIFIER = 10;
 	int WAIT_DELAY = 500; //Delay in ms that the thread pauses when it doesn't find towers
 	
@@ -54,8 +54,8 @@ public class AttackThread extends Thread {
 			}
 			
 			critterList = critterManager.getCrittersList();
-			//Once all criters are dead, stop the thread
-			if(critterList.size()<1 || player.getGold()<0){
+			//Once all criters are dead, stop the thread (make sure to wait some time)
+			if((critterList.size()<1 || player.getGold()<0) && tick>15){
 				return;
 			}
 			
@@ -140,7 +140,8 @@ public class AttackThread extends Thread {
 						//System.out.println("Distance: " + distance);
 						
 						if(distance<currentTower.getRange() && currentCritter.getHitPoints()>0){
-							//Notify Observers
+							System.out.println("HIT");
+							//Notify observers
 							int currHP = currentCritter.takeDamage();
 							if(currentTower instanceof SpellTower){
 								//If the tower is a spellTower, decrease the speed of the critter

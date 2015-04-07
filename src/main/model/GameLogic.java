@@ -22,7 +22,7 @@ public class GameLogic {
 	boolean init = true;
 	boolean waiting = false;
 	
-	int STEAL_FACTOR = 10;
+	int STEAL_FACTOR = 50;
 	int previousPlayerMoney = 0;
 	
 	

@@ -79,10 +79,35 @@ public class GameLogic {
 		critterManager.addCritter(c);
 	}
 	
+	private void checkEndOfPath() {
+		List<Critter> critters = critterManager.getCrittersList();
+		for(Critter c: critters) {
+			Tile tile = map.getTileAt(c.getPosition());
+			if(((Path)tile).getNext() == null) {
+				int strength = c.getStrength();
+				player.setGold(player.getGold() - strength);
+				player.setHealth(player.getHealth() - strength);
+				critterManager.removeCritter(c);
+			}
+		}
+	}
+	
+	private void checkDeadCritters() {
+		List<Critter> critters = critterManager.getCrittersList();
+		for(Critter c: critters) {
+			if(c.getHitPoints() <= 0) {
+				int reward = c.getReward();
+				critterManager.removeCritter(c);
+				player.addGold(reward);
+			}
+		}
+	}
+	
 	public void updateFrame() {
 		spawnCritters();
 		moveCritter();
-		
+		checkDeadCritters();
+		checkEndOfPath();
 	}
 	
 	/*

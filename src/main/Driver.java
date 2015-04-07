@@ -42,9 +42,9 @@ public class Driver {
 				 */
 				
 				
-				GameLogic model = new GameLogic(map);
+				final GameLogic model = new GameLogic(map);
 				
-				NewJFrame frame = new NewJFrame(model);
+				final NewJFrame frame = new NewJFrame(model);
 				frame.setVisible(true);
 				frame.setResizable(false);
 				frame.validate();
@@ -60,6 +60,7 @@ public class Driver {
 				        {
 				            model.updateFrame();
 				            frame.mapPanel.repaint();
+				            frame.mapPanel.revalidate();
 				        }
 				    },
 				    0,

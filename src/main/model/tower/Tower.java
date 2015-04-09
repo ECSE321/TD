@@ -174,7 +174,7 @@ public abstract class Tower extends Observable {
 	}
 
 	public int getUpgradeCost() {
-		return upgradeCost;
+		return upgradeCost*level;
 	}
 
 	public void setUpgradeCost(int upgradeCost) {

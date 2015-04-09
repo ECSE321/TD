@@ -5,105 +5,88 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 
 import javax.swing.SwingUtilities;
 
+import MapEditor.GameDisplay;
 import main.model.GameLogic;
 import main.model.Vector2D;
 import main.model.map.Map;
 import main.model.map.Tile;
 import main.view.NewJFrame;
 
+public class Driver implements Runnable{
+	
+	
 
-public class Driver {
+	 static boolean done;
+	 static List<Vector2D> path = new ArrayList<Vector2D>();
+     Thread thread=new Thread(this);
+    
+     public Driver()
+     {
+    	thread.start();
+     }
+ 
+     
 	public static void main(String[] args) {
+		CountDownLatch latch = new CountDownLatch(1);
+		GameDisplay gd = new GameDisplay(latch);
+		
+		
+		try {
+	      
+	        latch.await();
+	    } catch (InterruptedException e) {
+	       
+	    }
+		
+		path=gd.pathVector;
+		
 		
 		
 		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
+			public void run(){
+				
+				
 				Map map = new Map();
 				
-				/*
-				 * FOR TESTING
-				 */
-				List<Vector2D> path = new ArrayList<Vector2D>();
-				path.add(new Vector2D(0,0));
-				path.add(new Vector2D(50,0));
-				path.add(new Vector2D(100,0));
-				path.add(new Vector2D(100,50));
-				path.add(new Vector2D(100,100));
-				path.add(new Vector2D(50, 100));
-				path.add(new Vector2D(50, 150));
-				path.add(new Vector2D(50, 200));
-				path.add(new Vector2D(100, 200));
-				path.add(new Vector2D(150, 200));
-				path.add(new Vector2D(200, 200));
-				path.add(new Vector2D(250, 200));
-				path.add(new Vector2D(300, 200));
-				path.add(new Vector2D(350, 200));
-				path.add(new Vector2D(400, 200));
 				map.tracePath(path);
+		
 				
-				map.addTile(new Tile(new Vector2D(0,50)));
-				map.addTile(new Tile(new Vector2D(0,100)));
-				map.addTile(new Tile(new Vector2D(0,150)));
-				map.addTile(new Tile(new Vector2D(0,200)));
-				map.addTile(new Tile(new Vector2D(0,250)));
-				map.addTile(new Tile(new Vector2D(0,300)));
-				map.addTile(new Tile(new Vector2D(0,350)));
+			
+			for(int i=0; i<=400; i=i+50)
+				{
+					for(int j=0; j<=400; j=j+50)
+					{
+						Tile til =new Tile(new Vector2D(i, j));
+						
+						for(int k=0; k<path.size(); k++)
+							
+						{
+							
+							Vector2D tocompare=path.get(k);
+							 
+							if((tocompare.getX() != i && tocompare.getY() !=j) )
+							{
+								map.addTile(til);
+								
+							}
+							
+							
+							
+						}
+						
+					}
+				}
 				
-				map.addTile(new Tile(new Vector2D(50,50)));
-				map.addTile(new Tile(new Vector2D(50,250)));
-				map.addTile(new Tile(new Vector2D(50,300)));
-				map.addTile(new Tile(new Vector2D(50,350)));
+			map.tracePath(path);
 				
-				map.addTile(new Tile(new Vector2D(100,150)));
-				map.addTile(new Tile(new Vector2D(100,250)));
-				map.addTile(new Tile(new Vector2D(100,300)));
-				map.addTile(new Tile(new Vector2D(100,350)));
-				
-				map.addTile(new Tile(new Vector2D(150,0)));
-				map.addTile(new Tile(new Vector2D(150,50)));
-				map.addTile(new Tile(new Vector2D(150,100)));
-				map.addTile(new Tile(new Vector2D(150,150)));
-				map.addTile(new Tile(new Vector2D(150,250)));
-				map.addTile(new Tile(new Vector2D(150,300)));
-				map.addTile(new Tile(new Vector2D(150,350)));
-				
-				map.addTile(new Tile(new Vector2D(200,0)));
-				map.addTile(new Tile(new Vector2D(200,50)));
-				map.addTile(new Tile(new Vector2D(200,100)));
-				map.addTile(new Tile(new Vector2D(200,150)));
-				map.addTile(new Tile(new Vector2D(200,250)));
-				map.addTile(new Tile(new Vector2D(200,300)));
-				map.addTile(new Tile(new Vector2D(200,350)));
-				
-				map.addTile(new Tile(new Vector2D(250,0)));
-				map.addTile(new Tile(new Vector2D(250,50)));
-				map.addTile(new Tile(new Vector2D(250,100)));
-				map.addTile(new Tile(new Vector2D(250,150)));
-				map.addTile(new Tile(new Vector2D(250,250)));
-				map.addTile(new Tile(new Vector2D(250,300)));
-				map.addTile(new Tile(new Vector2D(250,350)));
-				
-				map.addTile(new Tile(new Vector2D(300,0)));
-				map.addTile(new Tile(new Vector2D(300,50)));
-				map.addTile(new Tile(new Vector2D(300,100)));
-				map.addTile(new Tile(new Vector2D(300,150)));
-				map.addTile(new Tile(new Vector2D(300,250)));
-				map.addTile(new Tile(new Vector2D(300,300)));
-				map.addTile(new Tile(new Vector2D(300,350)));
-				
-				map.addTile(new Tile(new Vector2D(350,0)));
-				map.addTile(new Tile(new Vector2D(350,50)));
-				map.addTile(new Tile(new Vector2D(350,100)));
-				map.addTile(new Tile(new Vector2D(350,150)));
-				map.addTile(new Tile(new Vector2D(350,250)));
-				map.addTile(new Tile(new Vector2D(350,300)));
-				map.addTile(new Tile(new Vector2D(350,350)));
 				/*
 				 * END TESTING
 				 */
+			
 				
 				
 				final GameLogic model = new GameLogic(map);
@@ -131,5 +114,13 @@ public class Driver {
 				    50);
 			}
 	});
+	
+	}
+	@Override
+	public void run() {
+		
+		
+		
+
 	}
 }

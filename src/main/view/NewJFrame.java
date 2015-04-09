@@ -148,7 +148,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
         jPanel4 = new javax.swing.JPanel();
         playerPanel = new javax.swing.JPanel();
         Gold = new javax.swing.JLabel();
-        Health = new javax.swing.JLabel();
+       // Health = new javax.swing.JLabel();
         Level = new javax.swing.JLabel();
         NextWave = new javax.swing.JButton();
         
@@ -228,41 +228,41 @@ public class NewJFrame extends javax.swing.JFrame implements View {
             }
         });
 
-        sellValue.setText("Value");
+        sellValue.setText("Value: 100");
 
-        upgradeCost.setText("Cost");
+        upgradeCost.setText("Cost: 1200");
 
         StrengthA.setText("Strength: 50");
 
         RoFA.setText("RoF: 3");
 
-        RangeA.setText("Range: ");
+        RangeA.setText("Range: 20");
 
-        CostA.setText("Cost");
+        CostA.setText("Cost: 200");
 
-        CostB.setText("Cost");
+        CostB.setText("Cost: 250");
 
-        StrengthB.setText("Strength");
+        StrengthB.setText("Strength: 10");
 
-        RoFB.setText("RoF");
+        RoFB.setText("RoF: 10");
 
-        RangeB.setText("Range");
+        RangeB.setText("Range: 25");
+        
+        RoFC.setText("RoF: 1");
 
-        RoFC.setText("RoF");
+        RangeC.setText("Range: 60");
 
-        RangeC.setText("Range");
+        StrengthC.setText("Strength: 175");
 
-        StrengthC.setText("Strength");
+        CostC.setText("Cost: 350");
 
-        CostC.setText("Cost");
+        CostD.setText("Cost: 200");
 
-        CostD.setText("Cost");
+        RangeD.setText("Range: 20");
 
-        RangeD.setText("Range");
+        StrengthD.setText("Slow Factor: 5");
 
-        StrengthD.setText("Strength");
-
-        RoFD.setText("RoF");
+        RoFD.setText("RoF: 3");
 
         javax.swing.GroupLayout PurchasePanelLayout = new javax.swing.GroupLayout(PurchasePanel);
         PurchasePanel.setLayout(PurchasePanelLayout);
@@ -368,7 +368,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 
         Gold.setText("Gold");
 
-        Health.setText("Health");
+        //Health.setText("Health");
 
         Level.setText("Level");
 
@@ -387,7 +387,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
                 .addContainerGap()
                 .addGroup(playerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Gold)
-                    .addComponent(Health)
+                    //.addComponent(Health)
                     .addComponent(Level))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(playerPanelLayout.createSequentialGroup()
@@ -400,7 +400,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
                 .addContainerGap()
                 .addComponent(Gold)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Health)
+                //.addComponent(Health)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Level)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 312, Short.MAX_VALUE)
@@ -482,6 +482,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
     private void UpgradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpgradeActionPerformed
         // TODO add your handling code here:
         model.upgradeTower();
+        updateUpgrade();
     }//GEN-LAST:event_UpgradeActionPerformed
 
     private void PurchaseDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseDActionPerformed
@@ -545,6 +546,10 @@ public class NewJFrame extends javax.swing.JFrame implements View {
     	if(model.getSelectedTile().getTower() != null) {
     		cost = model.getSelectedTile().getTower().getUpgradeCost();
     		refund = model.getSelectedTile().getTower().getRefundValue();
+    		if(model.getPlayer().getGold() < model.getSelectedTile().getTower().getUpgradeCost()) {
+    			Upgrade.setEnabled(false);
+    		}
+    		
     	} else {
     		cost = 0;
     		refund = 0;
@@ -561,7 +566,7 @@ public class NewJFrame extends javax.swing.JFrame implements View {
     private javax.swing.JLabel CostC;
     private javax.swing.JLabel CostD;
     private javax.swing.JLabel Gold;
-    private javax.swing.JLabel Health;
+   // private javax.swing.JLabel Health;
     private javax.swing.JLabel Level;
     private javax.swing.JButton NextWave;
     private javax.swing.JButton PurchaseA;
@@ -598,22 +603,19 @@ public class NewJFrame extends javax.swing.JFrame implements View {
 		if(playerGold < 1200) {
 			PurchaseA.setEnabled(false);
 		}
-		if(playerGold < 1200) {
+		if(playerGold < 1500) {
 			PurchaseB.setEnabled(false);
 		}
-		if(playerGold < 1200) {
+		if(playerGold < 1800) {
 			PurchaseC.setEnabled(false);
 		}
-		if(playerGold < 1200) {
+		if(playerGold < 1000) {
 			PurchaseD.setEnabled(false);
 		}
 		
-		if(playerGold < 1200) {
-			Upgrade.setEnabled(false);
-		}
 		
 		Gold.setText("Gold: " + playerGold);
-		Health.setText("Health: " + model.getPlayer().getHealth());
+		//Health.setText("Health: " + model.getPlayer().getHealth());
 		Level.setText("Level: " + model.getPlayer().getLevel());
 	}
 }

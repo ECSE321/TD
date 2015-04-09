@@ -103,7 +103,7 @@ public class AttackThread extends Thread {
 					Vector2D critterPosition = currentCritter.getPosition();
 					//Compute the displacement between the tower and the critter:
 					Vector2D displacement = towerPosition.getDisplacementVector(critterPosition);
-					int distance = displacement.getMagnitude()/DISTANCE_MODIFIER;
+					int distance = (displacement.getMagnitude()/(DISTANCE_MODIFIER*2));
 					//Add to the LinkedList if a critter is found to be in range
 					if(distance<currentTower.getRange()){
 						if(aimed.get(currentTower)==null){

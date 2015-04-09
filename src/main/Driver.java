@@ -43,6 +43,8 @@ public class Driver implements Runnable{
 	    }
 		
 		path=gd.pathVector;
+		pathCreator pc = new pathCreator(new File("src/main/mapsaves/newMap.txt"));
+		final int[][] binaryMap = pc.arrayMap;
 		
 		
 		
@@ -51,37 +53,9 @@ public class Driver implements Runnable{
 				
 				
 				Map map = new Map();
-				
-				map.tracePath(path);
-		
-				
 			
-			for(int i=0; i<=400; i=i+50)
-				{
-					for(int j=0; j<=400; j=j+50)
-					{
-						Tile til =new Tile(new Vector2D(i, j));
-						
-						for(int k=0; k<path.size(); k++)
-							
-						{
-							
-							Vector2D tocompare=path.get(k);
-							 
-							if((tocompare.getX() != i && tocompare.getY() !=j) )
-							{
-								map.addTile(til);
-								
-							}
-							
-							
-							
-						}
-						
-					}
-				}
-				
-			map.tracePath(path);
+				map.tracePath(path);
+				map.addLandscape(binaryMap);
 				
 				/*
 				 * END TESTING
